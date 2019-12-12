@@ -8,7 +8,8 @@ const userSchema = new Schema(
     emailConfirmed: false,
     role: {
       type: String,
-      enum: ["passenger", "driver"]
+      enum: ["passenger", "driver"],
+      default: "passenger"
     },
     profile: {
       type: Schema.Types.ObjectId,

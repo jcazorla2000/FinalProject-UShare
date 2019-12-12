@@ -4,6 +4,8 @@ import {Link} from "react-router-dom"
 import AuthTemplate from '../auth/AuthTemplate';
 import { MyContext } from '../../context'
 import NavBar from '../NavBar';
+import FooterLayout from '../Footer';
+
 const { Meta } = Card;
 
 
@@ -15,7 +17,7 @@ export default function RideChoice(props) {
         <NavBar></NavBar>
         <AuthTemplate>
         <div style={{"height" : "100%" ,"display" : "flex", "flexDirection" : "column", "justifyContent" : "space-around", "alignItems" : "center"}}>
-            {(localStorage.user) ? (localStorage.user.role === "driver") ? 
+            {(localStorage.user) ? (JSON.parse(localStorage.user).role === "driver") ? 
             <>
                 <Link to={"/create"}>
                 <Card
@@ -53,6 +55,7 @@ export default function RideChoice(props) {
             }
         </div>
         </AuthTemplate>
+        <FooterLayout></FooterLayout>
         </>
         )}
         </MyContext.Consumer>

@@ -8,6 +8,7 @@ import Feed from './components/feed/Feed';
 import RideChoice from './components/rideChoice/RideChoice';
 import Create from './components/Create';
 import Profile from './components/profile/Profile';
+import Map from './components/Map';
 
 const Router = () => (
   <BrowserRouter>
@@ -19,6 +20,7 @@ const Router = () => (
       <Route exact path="/feed" component={Feed}/>
       <Route exact path="/create" component={Create}/>
       <Route exact path="/profile" component={Profile}/>
+      <Route exact path="/map" component={Map}/>
       <Route component={NotFound} />
     </Switch>
   </BrowserRouter>

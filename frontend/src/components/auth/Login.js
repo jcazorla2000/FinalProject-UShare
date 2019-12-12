@@ -10,7 +10,8 @@ export default function Login(props) {
             <MyContext.Consumer>
             {context => (
             <AuthTemplate >
-            <div style={{"width": "100%", "height" : "100%", "display" : "flex", "alignItems" : "center", "justifyContent" : "center"}}>
+            <div style={{"width": "100%", "height" : "100%", "display" : "flex", "alignItems" : "center", "justifyContent" : "center", "flexDirection" : "column"}}>
+            <img style={{"width": "50vw", "marginTop": "-30vw", "marginBottom":"5vw"}} src="logo.png" alt="LogoImage"/>
             <Form onSubmit={context.handleInput} className="login-form">
               <Form.Item>
                 
@@ -36,17 +37,13 @@ export default function Login(props) {
               <Form.Item>
                 <Checkbox>Recuerdame</Checkbox>
                 <Button 
-              
+                style={{"backgroundColor": "#31837c", "border": "2px solid #31837c"}}
                 type="primary" 
                 htmlType="submit" 
                 className="login-form-button"
                 onClick={e => {
-                    context.handleLogin(e);
-                    (localStorage.user) ? 
-                    props.history.push('/rideChoice')
-                    :
-                    props.history.push('/login')
-                                            }}
+                    context.handleLogin(e, () => props.history.push('/rideChoice') );
+                }}
                 >
                   Logearme
                 </Button>

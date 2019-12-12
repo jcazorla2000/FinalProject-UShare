@@ -8,7 +8,7 @@ import {
     Input,
     Tooltip,
     Icon,
-    // Cascader,
+    Upload,
     Select,
     Button,
     TimePicker
@@ -31,7 +31,7 @@ export default function Signup(props) {
                     {
                         // "background-image" : "url('https://miro.medium.com/max/3300/1*8ZGC79f70ZpDbwrhYha-xA.png')",
                         // "backgroundImageSize" : "contain",
-                        "backgroundColor" : "black",
+                        "backgroundColor" : "#31837c",
                         "width" : "100vw",
                         "height" : "100vh",
                         "display" : "flex",
@@ -42,20 +42,23 @@ export default function Signup(props) {
                         {
                             "width" : "88vw",
                             "height" : "92vh",
-                            "boder" : "2px solid whiteSmoke",
+                            "boder" : "2px solid #a7bdbb",
                             "borderRadius" : "10px",
-                            "backgroundColor" : "whiteSmoke",
+                            "backgroundColor" : "#a7bdbb",
                             "display" : "flex",
                             "alignItems" : "center",
-                            "flexDirection" : "column"
-
+                            "flexDirection" : "column",
+                            "boxShadow": "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)"
                         }}>
-                        <Steps size="small" current={context.formSignupStep} style={{"marginTop" : "10vh", "marginLeft" : "12vw"}}>
-                            <Step title="Primer paso" />
-                            <Step title="Segundo paso" />
-                            <Step title="Tercer paso" />
-                        </Steps>   
-                        <div style={{"width": "100%", "height" : "100%", "display" : "flex", "flexDirection" : "column","alignItems" : "center", "justifyContent" : "center"}}>
+                        <div style={{"width": "70%","display" : "flex", "justifyContent" : "flex-start", "alignItems": "center", "marginLeft": "-15vw" }}>
+                            <Steps direction="horizontal" size="small" current={context.formSignupStep} style={{"marginTop" : "2vh"}}>
+                                <Step title="" />
+                                <Step title="" />
+                                <Step title="" />
+                            </Steps>
+                            <img src="logo_transparent.png" style={{"width": "50vw"}}/>
+                        </div> 
+                        <div style={{"width": "100%", "height" : "100%", "display" : "flex", "flexDirection" : "column","alignItems" : "center", "justifyContent" : "flex-start"}}>
                         {(context.formSignupStep === 0) ? 
                             <Form onSubmit={context.handleInput}>
                                 <Form.Item
@@ -82,7 +85,7 @@ export default function Signup(props) {
                                     value={context.formSignup.password}
                                     />
                                 </Form.Item>
-                                <Button style={{"marginBottom" : "1vh"}} onClick={context.nextStep} type="primary" htmlType="submit">
+                                <Button style={{"marginBottom" : "1vh", "backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={context.nextStep1} type="primary" htmlType="submit">
                                     Siguiente
                                 </Button>
                                 <br></br>
@@ -108,41 +111,33 @@ export default function Signup(props) {
                                         value={context.formSignup.telephoneNumber}
                                         />
                                     </Form.Item>
-                                    <Select placeholder="Seleccione" style={{ width: 250 }} onChange={context.handleChangeRole}>
-                                        <Option value="passenger">Pasajero</Option>
-                                        <Option value="driver">Conductor</Option>
-                                    </Select>
-                                    <br></br>
-                                    <br></br>
-                                    <Select placeholder="Seleccione" default="Tecnologico de Monterrey, Santa Fe"  style={{ width: 250 }} onChange={context.handleChangeUniversity}>
-                                        <Option value="Tecnologico de Monterrey, Santa Fe">Tecnologico de Monterrey, Santa Fe</Option>
-                                        <Option value="Universidad Iberoamericana">Universidad Iberoamericana</Option>
-                                    </Select>
+                                    <Form.Item label="Rol">
+                                        <Select placeholder="Seleccione" style={{ width: 250 }} onChange={context.handleChangeRole}>
+                                            <Option value="passenger">Pasajero</Option>
+                                            <Option value="driver">Conductor</Option>
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item label="Universidad">
+                                        <Select placeholder="Seleccione" default="Tecnologico de Monterrey, Santa Fe"  style={{ width: 250 }} onChange={context.handleChangeUniversity}>
+                                            <Option value="Tecnologico de Monterrey, Santa Fe">Tecnologico de Monterrey, Santa Fe</Option>
+                                            <Option value="Universidad Iberoamericana">Universidad Iberoamericana</Option>
+                                        </Select>
+                                    </Form.Item>
                                     <Form.Item >
                                         
                                     </Form.Item>
-                                    <Button onClick={context.nextStep} type="primary" htmlType="submit">
+                                    <Button style={{"backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={context.nextStep2} type="primary" htmlType="submit">
                                         Siguiente
                                     </Button>
                                 </Form>
                             :
                                     (context.formSignup.role === "driver") ? 
                                         <Form>
-                                        <Form.Item>
-                                            <TimePicker defaultValue={moment('12:08', format)} format={format} onChange={context.handleChangeDeparture}/>
-                                            {/* <TimePicker 
-                                                placeholder="Salida" 
-                                                name="departure" 
-                                                onChange={context.handleChangeDeparture}
-                                            /> */}
+                                        <Form.Item label="Hora habitual de salida">
+                                            <TimePicker defaultValue={moment('08:00', format)} format={format} onChange={context.handleChangeDeparture}/>
                                         </Form.Item>
-                                        <Form.Item>
-                                            <TimePicker defaultValue={moment('12:08', format)} format={format} onChange={context.handleChangeReturn}/>
-                                            {/* <TimePicker 
-                                                placeholder="Regreso" 
-                                                name="return" 
-                                                onChange={context.handleChangeReturn}
-                                            /> */}
+                                        <Form.Item label="Hora habitual de regreso">
+                                            <TimePicker defaultValue={moment('15:00', format)} format={format} onChange={context.handleChangeReturn}/>
                                         </Form.Item>
                                         <Form.Item label="Modelo de su coche">
                                             <Input
@@ -158,48 +153,58 @@ export default function Signup(props) {
                                             onChange={e => context.handleInput(e, 'formSignup')} 
                                             value={context.formSignup.carColor}/>
                                         </Form.Item>
-                                                <Button 
+
+                                        <Form.Item label="Suba una foto">
+                                            <Upload.Dragger name="files" action="/upload.do">
+                                            <p className="ant-upload-drag-icon">
+                                                <Icon type="inbox" />
+                                            </p>
+                                            <p className="ant-upload-text">Haga click o arrastre un archivo</p>
+                                            <p className="ant-upload-hint">Solo suba una</p>
+                                            </Upload.Dragger>
                                             
+                                        </Form.Item>
+                                        
+                                                <Button 
+                                            style={{"backgroundColor": "#31837c", "border": "2px solid #31837c"}}
                                             type="primary" 
                                             htmlType="submit"
-                                            onClick={e => {
-                                                context.handleSignup(e)
-                                                props.history.push('/login')
-                                            }}
+                                            onClick={(e) => context.handleSignupSubmit(e, () => props.history.push('/login'))}
                                             >
                                                 Finalizar
                                             </Button>
                                         </Form>
                                     :
                                         <Form>
-                                        <Form.Item>
-                                        
-                                        <TimePicker 
-                                            placeholder="Salida" 
-                                            name="departure" 
-            
-                                            />
+                                        <Form.Item label="Hora habitual de salida">
+                                            <TimePicker defaultValue={moment('08:00', format)} format={format} onChange={context.handleChangeDeparture}/>
                                         </Form.Item>
-                                        <Form.Item>
-                                            <TimePicker 
-                                            placeholder="Regreso" 
-                                            name="return" 
+                                        <Form.Item label="Hora habitual de regreso">
+                                            <TimePicker defaultValue={moment('15:00', format)} format={format} onChange={context.handleChangeReturn}/>
+                                        </Form.Item>
+
+                                        <Form.Item label="Suba una foto">
+                                            <Upload.Dragger name="files" action="/upload.do">
+                                            <p className="ant-upload-drag-icon">
+                                                <Icon type="inbox" />
+                                            </p>
+                                            <p className="ant-upload-text">Haga click o arrastre un archivo</p>
+                                            <p className="ant-upload-hint">Solo suba una</p>
+                                            </Upload.Dragger>
                                             
-                                        />
                                         </Form.Item>
+
                                         <Button 
-                                       
+                                            style={{"backgroundColor": "#31837c", "border": "2px solid #31837c"}}
                                             type="primary" 
                                             htmlType="submit"
-                                            onClick={e => {
-                                                context.handleSignup(e)
-                                                props.history.push('/login')
-                                            }}
+                                            onClick={(e) => context.handleSignupSubmit(e, () => props.history.push('/login'))}
                                             >
                                                 Finalizar
                                             </Button>
                                         </Form>
-                                    }         
+                                        
+                                    }       
                                     </div>
                     </div>
                 </div>
@@ -208,32 +213,6 @@ export default function Signup(props) {
         )
     }
 
-
-{/* <Form.Item label="Horario habitual">
-                                        <TimePicker 
-                                        placeholder="Salida" 
-                                        name="departure" 
-                                        onChange={e => context.handleInput(e, 'formSignup')}
-                                        value={context.formSignup.departure}
-                                        />
-                                    </Form.Item>
-                                    <Form.Item>
-                                        <TimePicker 
-                                        placeholder="Regreso" 
-                                        name="return" 
-                                        onChange={e => context.handleInput(e, 'formSignup')}
-                                        value={context.formSignup.return}
-                                        />
-                                    </Form.Item>
-                                    <Form.Item label="Universidad">
-                                        <Cascader 
-                                        options={universities} 
-                                        placeholder="seleccione" 
-                                        name="university" 
-                                        onChange={e => context.handleInput(e, 'formSignup')}
-                                        value={context.formSignup.university}
-                                        />
-                                    </Form.Item> */}
 
 
 

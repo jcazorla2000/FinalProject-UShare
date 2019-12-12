@@ -3,9 +3,11 @@ const router = express.Router();
 const User = require('../models/User');
 const passport = require('../config/passport');
 const Profile = require('../models/Profile');
+const Ride = require("../models/Ride")
+
+//-----Auth-----
 
 router.post('/signup', (req, res, next) => {
-  console.log(req.body)
   if (req.body.role === "driver"){
     const {fullName, email, telephoneNumber, university, password, role, carModel, carColor, returnTime, departureTime} = req.body
     User.register({fullName, email, role}, password)
@@ -54,8 +56,9 @@ router.post('/signup', (req, res, next) => {
 
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
   const { user } = req;
-  console.log(user)
-  res.status(200).json({ user });
+  User.findById(user._id).populate("profile")
+    .then(user => res.status(200).json({ user }))
+    .catch(err => console.log(err))
 });
 
 router.get('/logout', (req, res, next) => {
@@ -68,6 +71,14 @@ router.get('/profile', isAuth, (req, res, next) => {
     .then((user) => res.status(200).json({ user }))
     .catch((err) => res.status(500).json({ err }));
 });
+
+//-----Create-----
+
+router.post("/create", (req, res) => {
+  console.log(req.body)
+  const {departureTime, coords} = req.body
+  // Ride.create({})
+})
 
 function isAuth(req, res, next) {
   req.isAuthenticated() ? next() : res.status(401).json({ msg: 'Log in first' });

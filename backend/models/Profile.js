@@ -12,7 +12,8 @@ const profileSchema = new Schema(
         returnTime: String,
         university: {
         type: String,
-        enum: ["Tecnologico de Monterrey, Santa Fe", "Universidad Iberoamericana"]
+        enum: ["Tecnologico de Monterrey, Santa Fe", "Universidad Iberoamericana"],
+        default: "Tecnologico de Monterrey, Santa Fe"
         },
         photo: {
             type: String,

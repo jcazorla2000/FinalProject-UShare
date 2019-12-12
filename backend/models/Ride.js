@@ -2,16 +2,13 @@ const {Schema, model} = require("mongoose")
 
 const rideSchema = new Schema(
     {
-        schedule: {
-            departure: String,
-            arrival: String
-        },
-        location: {
-            departure: {
-                coordinates: [String],
-
-            },
-            arrival: String
+        departureTime: String,
+        rideDirection: String,
+        numberPlaces: String,
+        universityDirection: String,
+        coords: {
+            lat: String,
+            long: String
         },
         driver: {
             type: Schema.Types.ObjectId,

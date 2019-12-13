@@ -22,6 +22,9 @@ const MY_SERVICE = {
   },
   create: async (form) => {
     return await service.post('/create', form);
+  },
+  feed: async () => {
+    return await service.get('/feed');
   }
 };
 

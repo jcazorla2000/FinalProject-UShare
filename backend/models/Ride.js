@@ -6,13 +6,14 @@ const rideSchema = new Schema(
         rideDirection: String,
         numberPlaces: String,
         universityDirection: String,
+        departureTime: String,
         coords: {
             lat: String,
             long: String
         },
         driver: {
             type: Schema.Types.ObjectId,
-            ref: "Driver"
+            ref: "User"
         },
         passengers: [
             {
@@ -25,8 +26,23 @@ const rideSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: "User"
             }
-        ]
+        ],
+        place: {
+            type: {
+              type: String,
+              default: "Point",
+              require: true
+            },
+            coordinates: {
+              type: [Number],
+              require: true
+            }
+          }
     }
 )
+
+rideSchema.index({
+    "place": "2dsphere"
+  });
 
 module.exports = model('Ride', rideSchema);

@@ -1,6 +1,8 @@
 import React from 'react'
 import NavBar from '../NavBar';
 import { MyContext } from '../../context'
+import AuthTemplate from '../auth/AuthTemplate';
+import styled from "styled-components"
 
 export default function Feed(props) {
     return (
@@ -11,9 +13,11 @@ export default function Feed(props) {
                     <>
                         <NavBar>
                         </NavBar>
-                        <div>
-                            <h1>Hola</h1>
-                        </div>
+                        <AuthTemplate>
+                            <div>
+                                <h1 onClick={context.findRides}>Hola</h1>
+                            </div>
+                        </AuthTemplate>
                     </>
                     :
                     props.history.push("/login")

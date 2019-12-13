@@ -3,9 +3,8 @@ import Swal from 'sweetalert2'
 import MY_SERVICE from './services/AuthService'
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import MapGL from "react-map-gl";
-import DeckGL, { GeoJsonLayer } from "deck.gl";
-import Geocoder from "react-map-gl-geocoder";
+import { GeoJsonLayer } from "deck.gl";
+
 
 export const MyContext = createContext()
 
@@ -39,13 +38,14 @@ class MyProvider extends Component {
             universityDirection : "",
             departureTime: "",
             numberPlaces: "",
-            hostId: "",
+            driver: "",
             coords: {
                 lat: "",
                 long: "",
                 address: ""
             }
         },
+        foundRides: [],
         viewport: {
             latitude: 37.7577,
             longitude: -122.4376,
@@ -189,6 +189,23 @@ class MyProvider extends Component {
         this.setState({
             id: JSON.parse(localStorage.getItem('user'))._id
         })
+        
+      }
+
+    //   componentDidUpdate = () => {
+    //     MY_SERVICE.feed()
+    //     .then(({data}) => {
+    //         console.log(data)
+    //     })
+    //     .catch(err => console.log(err))
+    //   }
+
+      findRides = () => {
+        MY_SERVICE.feed()
+            .then(({data}) => {
+                console.log(data)
+            })
+            .catch(err => console.log(err))
       }
 
       handleSignup = async e => {
@@ -214,7 +231,8 @@ class MyProvider extends Component {
           })
       }
 
-      handleLogout = async cb => {
+      handleLogout = async e => {
+        e.preventDefault()
         await MY_SERVICE.logout()
         window.localStorage.clear()
         this.setState({ loggedUser: false, user: {} })
@@ -283,9 +301,11 @@ class MyProvider extends Component {
       }
 
       handleCreate = async e => {
-        e.preventDefault()
+        e.persist()
         Swal.fire(`Viaje creado`, '', 'success')
-        const data  = await MY_SERVICE.create(this.state.formCreate)
+        let data  = await MY_SERVICE.create(this.state.formCreate)
+        data = null
+        
       }
 
       handleCreateSubmit = (e, cb) => {
@@ -298,7 +318,7 @@ class MyProvider extends Component {
               ...this.state,
               formCreate : {
                   ...this.state.formCreate,
-                  hostId : this.state.id
+                  driver : this.state.id
               }
           })
           console.log(this.state.formCreate)
@@ -350,7 +370,8 @@ class MyProvider extends Component {
                 handleGeocoderViewportChange : this.handleGeocoderViewportChange,
                 handleChangeNumberPlaces : this.handleChangeNumberPlaces,
                 handleChangeDepartureCreate : this.handleChangeDepartureCreate,
-                handleCreateSubmit : this.handleCreateSubmit
+                handleCreateSubmit : this.handleCreateSubmit,
+                findRides : this.findRides
                 }}>
                 {this.props.children}
             </MyContext.Provider>

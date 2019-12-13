@@ -2,13 +2,13 @@ import React from 'react'
 import NavBar from './NavBar'
 import AuthTemplate from './auth/AuthTemplate';
 import { MyContext } from '../context'
-import { Form, Button, Select, TimePicker, Input } from "antd"
+import { Form, Button, Select, TimePicker } from "antd"
 import moment from "moment"
 import FooterLayout from './Footer';
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL from "react-map-gl";
-import DeckGL, { GeoJsonLayer } from "deck.gl";
+import DeckGL from "deck.gl";
 import Geocoder from "react-map-gl-geocoder";
 
 const { Option } = Select;
@@ -77,7 +77,7 @@ export default function Create(props) {
                             <TimePicker placeholder="Seleccione" defaultValue={moment('12:08', format)} format={format} onChange={context.handleChangeDepartureCreate}/>
                         </Form.Item>
                         <Form.Item>
-                        <Button style={{"marginBottom" : "1vh", "backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={(e) => context.handleCreateSubmit(e, () => props.history.push('/create'))} type="primary" htmlType="submit">
+                        <Button style={{"marginBottom" : "1vh", "backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={(e) => context.handleCreateSubmit(e, () => props.history.push('/feed'))} type="primary" htmlType="submit">
                             Finalizar
                         </Button>
                         </Form.Item>
@@ -128,7 +128,7 @@ export default function Create(props) {
                             <TimePicker placeholder="Seleccione" defaultValue={moment('12:08', format)} format={format} onChange={context.handleChangeDepartureCreate}/>
                         </Form.Item>
                         <Form.Item>
-                            <Button style={{"marginBottom" : "1vh", "backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={(e) => context.handleCreateSubmit(e, () => props.history.push('/create'))} type="primary" htmlType="submit">
+                            <Button style={{"marginBottom" : "1vh", "backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={(e) => context.handleCreateSubmit(e, () => props.history.push('/feed'))} type="primary" htmlType="submit">
                                 Finalizar
                             </Button>
                         </Form.Item>

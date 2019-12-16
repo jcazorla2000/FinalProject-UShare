@@ -28,7 +28,9 @@ export default function Create(props) {
                 <AuthTemplate>
                 <div style={{"marginTop" : "5vh"}}>
                     <h1>Creación</h1>
+                
                     {(context.formCreateStep > 0) ?
+                    
                     (context.rideDirection === "toUniversity") ?
                     <>
                         <h3>A qué universidad vas?</h3>
@@ -133,6 +135,7 @@ export default function Create(props) {
                             </Button>
                         </Form.Item>
                     </>
+                    
                     :
                     
                     <>
@@ -149,13 +152,14 @@ export default function Create(props) {
                         </Form.Item>
                     </>
                     }
+                    
                 </div>
                 </AuthTemplate>
             </>
             :
             props.history.push("/login")
             : 
-            ""
+            props.history.push("/login")
             }
             <FooterLayout></FooterLayout>
         </>

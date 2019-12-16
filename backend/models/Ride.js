@@ -7,6 +7,7 @@ const rideSchema = new Schema(
         numberPlaces: String,
         universityDirection: String,
         departureTime: String,
+        placeName: String,
         coords: {
             lat: String,
             long: String

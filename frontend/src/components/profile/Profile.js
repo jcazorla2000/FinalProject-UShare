@@ -14,7 +14,7 @@ export default function Profile(props) {
             </NavBar>
             <AuthTemplate>
                 {(localStorage.user) ?
-                <div style={{"height": "60vh","display": "flex", "flexDirection": "column", "justifyContent": "space-around", "alignItems": "center"}}>
+                <div style={{"height": "60vh","display": "flex", "flexDirection": "column", "justifyContent": "space-around", "alignItems": "center", "marginTop": "20px"}}>
                     <div>
                         <h1>Perfil</h1>
                     </div>

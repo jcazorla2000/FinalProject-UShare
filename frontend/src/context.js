@@ -51,7 +51,8 @@ class MyProvider extends Component {
             longitude: -122.4376,
             zoom: 8
           },
-        searchResultLayer: null
+        searchResultLayer: null,
+        userCoordinates : []
       }
       //---MAPBOX---
       mapRef = React.createRef();
@@ -79,8 +80,9 @@ class MyProvider extends Component {
                 ...this.state.formCreate,
                 coords: {
                     lat: event.result.center[0],
-                    long: event.result.center[1]
-                }
+                    long: event.result.center[1],
+                },
+                placeName: event.result.place_name
             }
         })
         this.setState({
@@ -128,6 +130,7 @@ class MyProvider extends Component {
       }
 
       handleChangeRideDirection = (value) => {
+          console.log(value)
         this.setState({
             ...this.state,
             formCreate : {
@@ -178,6 +181,11 @@ class MyProvider extends Component {
       }
 
       componentDidMount() {
+        this.setState({userCoordinates : []})
+        navigator.geolocation.getCurrentPosition(position => {
+            const userCoordinates = [position.coords.longitude, position.coords.latitude];
+            this.setState({userCoordinates: userCoordinates})
+        });
         if (document.cookie) {
           MY_SERVICE.getUser()
             .then(({ data }) => {
@@ -186,24 +194,42 @@ class MyProvider extends Component {
             })
             .catch(err => console.log(err))
         }
-        this.setState({
-            id: JSON.parse(localStorage.getItem('user'))._id
-        })
-        
+        if (localStorage.user){
+            this.setState({
+                id: JSON.parse(localStorage.getItem('user'))._id
+            })
+        }
       }
 
-    //   componentDidUpdate = () => {
-    //     MY_SERVICE.feed()
-    //     .then(({data}) => {
-    //         console.log(data)
-    //     })
-    //     .catch(err => console.log(err))
-    //   }
+      componentDidUpdate = () => {
+        // MY_SERVICE.feed()
+        // .then(({data}) => {
+        //     console.log(data)
+        // })
+        // .catch(err => console.log(err))
+        
+        navigator.geolocation.getCurrentPosition(position => {
+            const userCoordinates = [position.coords.longitude, position.coords.latitude];
+            this.setState({userCoordinates})     
+        });
+        if (localStorage.user && !this.state.id){
+            this.setState({
+                id: JSON.parse(localStorage.getItem('user'))._id
+            })
+        }
+      }
 
       findRides = () => {
-        MY_SERVICE.feed()
-            .then(({data}) => {
-                console.log(data)
+        const all = {
+            ...this.state.userCoordinates
+        }
+        MY_SERVICE.feed(all)
+            .then(({data: {ride}}) => {
+                this.setState({
+                    ...this.state,
+                    foundRides: ride
+                })
+                console.log(this.state.foundRides)
             })
             .catch(err => console.log(err))
       }
@@ -359,7 +385,7 @@ class MyProvider extends Component {
                 nextCreateStep : this.nextCreateStep,
                 handleChangeRideDirection : this.handleChangeRideDirection,
                 formCreateStep : this.state.formCreateStep,
-                rideDirection : this.state.rideDirection,
+                rideDirection : this.state.formCreate.rideDirection,
                 handleSignupSubmit : this.handleSignupSubmit,
                 signupFinished : this.state.signupFinished,
                 viewport : this.state.viewport,
@@ -371,7 +397,8 @@ class MyProvider extends Component {
                 handleChangeNumberPlaces : this.handleChangeNumberPlaces,
                 handleChangeDepartureCreate : this.handleChangeDepartureCreate,
                 handleCreateSubmit : this.handleCreateSubmit,
-                findRides : this.findRides
+                findRides : this.findRides,
+                foundRides: this.state.foundRides
                 }}>
                 {this.props.children}
             </MyContext.Provider>

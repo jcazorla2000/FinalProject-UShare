@@ -14,7 +14,13 @@ const userSchema = new Schema(
     profile: {
       type: Schema.Types.ObjectId,
       ref: "Profile"
-    }
+    },
+    ownedRides: [
+      {
+          type: Schema.Types.ObjectId,
+          ref: "Ride"
+      } 
+    ]
   },
   {
     timestamps: true,

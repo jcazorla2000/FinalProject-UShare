@@ -5,7 +5,7 @@ import styled from "styled-components"
 import FooterLayout from '../Footer';
 
 const CustomCard = styled.div`
-    height: 110px;
+    height: 130px;
     width: 80vw;
     background-color: whitesmoke;
     border: 4px solid whitesmoke;
@@ -29,7 +29,7 @@ export default function Feed(props) {
                             </div>
                             <div style= {{"overflow": "scroll", "display" : "flex", "flexDirection": "column", "alignItems": "center", "height": "85vh"}}>
                                 {context.foundRides.map((element, index)=> (
-                                    <div key={index} style={{"height": "80px", "marginBottom": "5vh"}}>
+                                    <div key={index} style={{"height": "100px", "marginBottom": "5vh"}}>
                                     <CustomCard key={index}>
                                         <h4>{element.driver.fullName}</h4>
                                     </CustomCard>

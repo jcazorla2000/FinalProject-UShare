@@ -56,7 +56,7 @@ router.post('/signup', (req, res, next) => {
 
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
   const { user } = req;
-  User.findById(user._id).populate("profile")
+  User.findById(user._id).populate("profile").populate("ownedRides")
     .then(user => res.status(200).json({ user }))
     .catch(err => console.log(err))
 });
@@ -76,32 +76,49 @@ router.get('/profile', isAuth, (req, res, next) => {
 
 router.post("/create", (req, res) => {
   const {rideDirection, universityDirection, departureTime, numberPlaces, driver, coords, placeName} = req.body
+  console.log(req.body)
   const lat = coords.lat
   const lng = coords.long
   if (rideDirection === "fromUniversity" && universityDirection === "Tecnologico de Monterrey, Santa Fe"){
     const newRide = {rideDirection, numberPlaces, departureTime, universityDirection,  place:{coordinates:[-99.258731,19.359274]}, driver , placeName, coords}
     Ride.create(newRide)
-    .then(result => console.log(result))
+    .then(result => {
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}})
+        .then(usr => console.log(usr))
+        .catch(err => console.log(err))
+    })
     .catch(err => console.log(err))
   }
   else if (rideDirection === "fromUniversity" && universityDirection === "Universidad Iberoamericana"){
     const newRide = {rideDirection, numberPlaces, departureTime, universityDirection,  place:{coordinates:[-99.2635995, 19.370993249999998]}, driver, placeName, coords }
     Ride.create(newRide)
-    .then(result => console.log(result))
+    .then(result => {
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}})
+        .then(usr => console.log(usr))
+        .catch(err => console.log(err))
+    })
     .catch(err => console.log(err))
   }
   else if (universityDirection === "Tecnologico de Monterrey, Santa Fe"){
     const newRide = {rideDirection, numberPlaces, departureTime, universityDirection,  place:{coordinates:[lat,lng]}, driver, placeName, coords: {lat: -99.258731,
       long: 19.359274} }
     Ride.create(newRide)
-    .then(result => console.log(result))
+    .then(result => {
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}})
+        .then(usr => console.log(usr))
+        .catch(err => console.log(err))
+    })
     .catch(err => console.log(err))
   }
   else {
     const newRide = {rideDirection, numberPlaces, departureTime, universityDirection,  place:{coordinates:[lat,lng]}, driver, placeName, coords: {lat: -99.2635995,
       long: 19.370993249999998} }
     Ride.create(newRide)
-    .then(result => console.log(result))
+    .then(result => {
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}})
+        .then(usr => console.log(usr))
+        .catch(err => console.log(err))
+    })
     .catch(err => console.log(err))
   }
 })
@@ -109,7 +126,6 @@ router.post("/create", (req, res) => {
 //-----Feed-----
 
 router.post('/feed', async (req, res, next) => {
-  console.log("---aqui", req.body)
   const coords = req.body
   Ride.find({
       place: {
@@ -118,7 +134,7 @@ router.post('/feed', async (req, res, next) => {
             type: "Point",
             coordinates: [coords[0], coords[1]]
           },
-          $maxDistance: 10000
+          $maxDistance: 1000
         }
       }
     }).populate({
@@ -129,7 +145,7 @@ router.post('/feed', async (req, res, next) => {
         model: 'Profile'
       }
     }).then((ride) => {
-      console.log(ride)
+      // console.log(ride)
       res.status(200).json({ ride })
     })
       .catch((err) => {
@@ -137,6 +153,10 @@ router.post('/feed', async (req, res, next) => {
         res.status(500).json({ err })});
     // res.status(200).json({ foundRides })
 });
+
+router.post("/myRides", async (req, res, next)=> {
+  console.log(req.body)
+})
 
 function isAuth(req, res, next) {
   req.isAuthenticated() ? next() : res.status(401).json({ msg: 'Log in first' });

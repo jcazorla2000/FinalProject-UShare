@@ -25,6 +25,9 @@ const MY_SERVICE = {
   },
   feed: async (coords) => {
     return await service.post('/feed', coords);
+  },
+  endRide: async (rideId) => {
+    return await service.post('/myRides', rideId);
   }
 };
 

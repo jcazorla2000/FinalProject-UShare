@@ -186,6 +186,7 @@ class MyProvider extends Component {
             const userCoordinates = [position.coords.longitude, position.coords.latitude];
             this.setState({userCoordinates: userCoordinates})
         });
+        setTimeout(this.findRides(), 200) 
         if (document.cookie) {
           MY_SERVICE.getUser()
             .then(({ data }) => {
@@ -212,6 +213,7 @@ class MyProvider extends Component {
             const userCoordinates = [position.coords.longitude, position.coords.latitude];
             this.setState({userCoordinates})     
         });
+        
         if (localStorage.user && !this.state.id){
             this.setState({
                 id: JSON.parse(localStorage.getItem('user'))._id
@@ -229,7 +231,7 @@ class MyProvider extends Component {
                     ...this.state,
                     foundRides: ride
                 })
-                console.log(this.state.foundRides)
+                
             })
             .catch(err => console.log(err))
       }
@@ -259,7 +261,7 @@ class MyProvider extends Component {
 
       handleLogout = async e => {
         e.preventDefault()
-        await MY_SERVICE.logout()
+        // await MY_SERVICE.logout()
         window.localStorage.clear()
         this.setState({ loggedUser: false, user: {} })
       }
@@ -329,7 +331,7 @@ class MyProvider extends Component {
       handleCreate = async e => {
         e.persist()
         Swal.fire(`Viaje creado`, '', 'success')
-        let data  = await MY_SERVICE.create(this.state.formCreate)
+        let data  = await MY_SERVICE.create(this.state.formCreate, JSON.parse(localStorage.user))
         data = null
         
       }
@@ -359,6 +361,16 @@ class MyProvider extends Component {
 
       showState = () => {
           console.log(this.state.formCreate)
+      }
+
+      endRide = async (e, elementId) => {
+        e.preventDefault()
+        const userId = JSON.parse(localStorage.user)._id
+        const allItems = {
+            elementId,
+            userId
+        }
+        let data  = await MY_SERVICE.endRide({allItems})
       }
       
     render() {
@@ -398,7 +410,8 @@ class MyProvider extends Component {
                 handleChangeDepartureCreate : this.handleChangeDepartureCreate,
                 handleCreateSubmit : this.handleCreateSubmit,
                 findRides : this.findRides,
-                foundRides: this.state.foundRides
+                foundRides: this.state.foundRides,
+                endRide: this.endRide
                 }}>
                 {this.props.children}
             </MyContext.Provider>

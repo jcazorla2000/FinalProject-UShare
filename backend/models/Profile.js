@@ -26,12 +26,6 @@ const profileSchema = new Schema(
                 ref: "Ride"
             }
         ],
-        ownedRides: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Ride"
-            } 
-        ],
         rating: {
             type: Number,
             default: 0

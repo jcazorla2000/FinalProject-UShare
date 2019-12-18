@@ -33,7 +33,7 @@ export default function Signup(props) {
                         {
                             // "background-image" : "url('https://miro.medium.com/max/3300/1*8ZGC79f70ZpDbwrhYha-xA.png')",
                             // "backgroundImageSize" : "contain",
-                            "backgroundColor" : "#31837c",
+                            "backgroundColor" : "#79a7a3",
                             "width" : "100vw",
                             "height" : "100vh",
                             "display" : "flex",
@@ -87,7 +87,7 @@ export default function Signup(props) {
                                         value={context.formSignup.password}
                                         />
                                     </Form.Item>
-                                    <Button style={{"marginBottom" : "1vh", "backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={context.nextStep1} type="primary" htmlType="submit">
+                                    <Button style={{"marginBottom" : "1vh", "backgroundColor": "black", "border": "2px solid black"}} onClick={context.nextStep1} type="primary" htmlType="submit">
                                         Siguiente
                                     </Button>
                                     <br></br>
@@ -128,7 +128,7 @@ export default function Signup(props) {
                                         <Form.Item >
                                             
                                         </Form.Item>
-                                        <Button style={{"backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={context.nextStep2} type="primary" htmlType="submit">
+                                        <Button style={{"backgroundColor": "black", "border": "2px solid black"}} onClick={context.nextStep2} type="primary" htmlType="submit">
                                             Siguiente
                                         </Button>
                                     </Form>
@@ -168,7 +168,7 @@ export default function Signup(props) {
                                             </Form.Item>
                                             
                                                     <Button 
-                                                style={{"backgroundColor": "#31837c", "border": "2px solid #31837c"}}
+                                                style={{"backgroundColor": "black", "border": "2px solid black"}}
                                                 type="primary" 
                                                 htmlType="submit"
                                                 onClick={(e) => context.handleSignupSubmit(e, () => props.history.push('/login'))}
@@ -197,7 +197,7 @@ export default function Signup(props) {
                                             </Form.Item>
 
                                             <Button 
-                                                style={{"backgroundColor": "#31837c", "border": "2px solid #31837c"}}
+                                                style={{"backgroundColor": "black", "border": "2px solid black"}}
                                                 type="primary" 
                                                 htmlType="submit"
                                                 onClick={(e) => context.handleSignupSubmit(e, () => props.history.push('/login'))}

@@ -3,7 +3,8 @@ const router = express.Router();
 const User = require('../models/User');
 const passport = require('../config/passport');
 const Profile = require('../models/Profile');
-const Ride = require("../models/Ride")
+const Ride = require("../models/Ride");
+const upload = require('../config/cloudinary');
 
 //-----Auth-----
 
@@ -130,15 +131,28 @@ router.post('/feed', async (req, res, next) => {
   if (req.body.userId){
     const { userId, elementId} = req.body
 
-    const ride = await Ride.findByIdAndUpdate(elementId, {$push : {"passengers": userId}}, {new: true})
-    const user = await User.findOne({_id: userId}).populate("profile")
+    const ride = await Ride.findByIdAndUpdate(elementId, {$push : {"passengers": userId}, $inc : {numberPlaces : -1, "metrics.orders": 1 }}, {new: true})
+    const user = await User.findOne({_id: userId}).populate("profile").populate("ownedRides").populate("actualRides")
+    // const profile = await Profile.findByIdAndUpdate(user.profile._id, {new: true})
 
-    user.profile.actualRides.push(elementId);
-    user.save();
-
-    console.log('ride', ride)
-    console.log('user', user)
+    user.actualRides.push(elementId)
+    user.save()
+    // profile.actualRides.push(elementId)
+    // profile.save()
     res.status(200).json({ user })
+    // user.profile.actualRides.push(elementId);
+    // User.findByIdAndUpdate(user._id, user).populate("profile")
+    //   .then(usr => res.status(200).json({ usr }))
+    //   .catch(err => console.log(err))
+    // user.save((err, user) => {
+    //   if (err) {
+    //     return console.log(err)
+    //   }
+    //   res.status(200).json({ user })
+    // });
+
+    // console.log('ride', ride)
+    // console.log('user', user)
 
 
     // Ride.findByIdAndUpdate(elementId, {$push : {"passengers": userId}}, {new: true})
@@ -189,14 +203,43 @@ router.post('/feed', async (req, res, next) => {
 router.post("/myRides", async (req, res, next)=> {
   console.log(req.body)
   const {elementId, userId} = req.body
+  Ride.findById(elementId)
+  .then(thisRide => {
+    thisRide.passengers.forEach((element, index) => {
+    console.log(element, index,"--")
+  })}
+  )
+  .catch(err => console.log(err))
   Ride.findByIdAndRemove(elementId)
-    .then( () => User.findByIdAndUpdate(userId, {$pull: {ownedRides: { $in: elementId }}}, {new: true}).populate("profile").populate("ownedRides")
-            .then( usr => {
-              console.log(usr)
-              res.status(200).json({ usr })})
-            .catch( err => console.error(err))
+    .then( () => User.findByIdAndUpdate(userId, {$pull: {ownedRides: { $in: elementId }}}, {new: true})
+    .populate("profile")
+    .populate("ownedRides")
+    .populate({
+      path: 'profile',
+      model: 'User',
+      populate: {
+        path: 'actualRides',
+        model: 'Profile'
+      }
+    })
+      .then( usr => {
+        console.log(usr)
+        res.status(200).json({ usr })
+      })
+      .catch( err => console.error(err))
     )
     .catch(err => console.log(err))
+  //   .then( usr => {
+  //     Profile.findById(usr.profile._id).populate("actualRides")
+  //       .then(profile => {
+  //         console.log(profile)
+  //         res.status(200).json({ usr, profile })
+  //       })
+  //       .catch(err => console.log(err))
+  //     })
+  //   .catch( err => console.error(err))
+  // )
+  // .catch(err => console.log(err))
 })
 
 function isAuth(req, res, next) {
@@ -204,3 +247,5 @@ function isAuth(req, res, next) {
 }
 
 module.exports = router;
+
+

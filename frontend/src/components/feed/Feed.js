@@ -33,7 +33,7 @@ export default function Feed(props) {
                     <>
                         <NavBar>
                         </NavBar>
-                        <div style={{"width": "100vw","height": "100vh", "backgroundColor":"#31837c", "paddingTop": "2vh"}}>
+                        <div style={{"width": "100vw","height": "100vh", "backgroundColor":"#79a7a3", "paddingTop": "2vh"}}>
                             <div>
                                 <h2 style={{"marginBottom":"10px"}} onClick={context.findRides}>Viajes disponibles</h2>
                             </div>
@@ -75,6 +75,7 @@ export default function Feed(props) {
                                                 <p><strong>Salida</strong> {(element.placeName)} </p>
                                                 <Icon style={{color: "black"}} type="down" />
                                                 <p><strong>Destino</strong> {(element.universityDirection === "Tecnologico de Monterrey, Santa Fe") ? "TEC Campus Santa Fe":"Iberoamericana"}</p>
+                                                
                                             </>
                                             :
                                             <>
@@ -84,9 +85,25 @@ export default function Feed(props) {
                                                 
                                             </>
                                             }
+                                                {(element.numberPlaces === 0) ? 
+                                                <>
+                                                    <h3><strong>No quedan plazas disponibles!</strong></h3>
+                                                </>
+                                                :
+                                                (element.driver._id === JSON.parse(localStorage.user)._id) ?
+                                                <>
+                                                    <h3><strong>Es tu viaje!</strong></h3>
+                                                    
+                                                </>
+                                                :
+                                                    (element.passengers.includes((JSON.parse(localStorage.user)._id))) ? 
+                                                <h3><strong>Ya formas parte de este viaje!</strong></h3>
+                                                :
+                                                
                                                 <Button style={{"marginBottom" : "1vh", "backgroundColor": "black", "border": "2px solid black", "color": "white"}} onClick={(e) => context.selectPlace(e, element._id, JSON.parse(localStorage.user)._id)} type="primary" htmlType="submit">
                                                     Seleccionar plaza
                                                 </Button>
+                                                }
                                         </div>
                                     </CustomCard>
                                     

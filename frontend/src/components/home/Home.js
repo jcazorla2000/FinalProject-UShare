@@ -1,42 +1,28 @@
 import React from 'react'
 import NavBar from '../NavBar'
 import FooterLayout from '../Footer'
-import { Carousel } from 'antd';
 
-import "./home.css"
 
 
 export default function Home() {
   return (
     <div>
       <NavBar></NavBar>
-      <div style={{"height":"90vh", "backgroundColor":"#31837c"}}>
-      <Carousel >
-        <div>
-          <h3>1</h3>
-        </div>
-        <div>
-          <h3>2</h3>
-        </div>
-        <div>
-          <h3>3</h3>
-        </div>
-        <div>
-          <h3>4</h3>
-        </div>
-      </Carousel>
-        <div>
+      <div style={{"height":"140vh", "backgroundColor":"#79a7a3","display":"flex","flexDirection":"column", "alignItems":"center"}}>
+      <img style={{"border":"0 solid white", "borderRadius":"14px", "width": "95vw", "margin":"1.5vh 0"}} src="/carpool.png"/>
+        <div style={{"width":"80%","textAlign":"justify"}}>
           <h1>¿Viajas solo?</h1>
-          <h1>Comparte tu auto y mejora tus trayectos diarios</h1>
+          <h2>Comparte tu auto y mejora tus trayectos diarios</h2>
         </div>
-        <div>
+        <img style={{"border":"0 solid white", "borderRadius":"14px", "width": "95vw", "margin":"1.5vh 0"}} src="/carpool2.jpg"/>
+        <div style={{"width":"80%","textAlign":"justify"}}>
           <h2>¿Por qué compartir auto?</h2>
-          <h4>Es una forma rápida, divertida y asequible de desplazarse. Ushare te permite elegir si quieres conducir o unirte a un viaje con otras personas que realizan la misma ruta que tú.</h4>
+          <h3>Es una forma rápida, divertida y asequible de desplazarse. Ushare te permite elegir si quieres conducir o unirte a un viaje con otras personas que realizan la misma ruta que tú.</h3>
         </div>
-        <div>
+        <div style={{"width":"80%","textAlign":"justify"}}>
           <h2>Conoce a personas de tu misma universidad</h2>
         </div>
-        <div>
+        <div style={{"width":"80%","textAlign":"justify"}}>
           <h2>Comparte el costo del combustible</h2>
         </div>
       </div>

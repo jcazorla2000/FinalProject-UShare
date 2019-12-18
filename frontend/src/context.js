@@ -244,21 +244,21 @@ class MyProvider extends Component {
             .catch(err => console.log(err))
       }
       
-      selectPlace = (e, rideId, userId) => {
-        const all = {
-            maxDistance : this.state.maxDistance,
-            userCoordinates : this.state.userCoordinates
-        }
-        MY_SERVICE.feed(all)
-            .then(({data: {ride}}) => {
-                this.setState({
-                    ...this.state,
-                    foundRides: ride
-                })
+    //   selectPlace = (e, rideId, userId) => {
+    //     const all = {
+    //         maxDistance : this.state.maxDistance,
+    //         userCoordinates : this.state.userCoordinates
+    //     }
+    //     MY_SERVICE.feed(all)
+    //         .then(({data: {ride}}) => {
+    //             this.setState({
+    //                 ...this.state,
+    //                 foundRides: ride
+    //             })
                 
-            })
-            .catch(err => console.log(err))
-      }
+    //         })
+    //         .catch(err => console.log(err))
+    //   }
 
       handleChangeMaxDistance = (value) => {
           
@@ -271,7 +271,7 @@ class MyProvider extends Component {
       handleSignup = async e => {
         e.preventDefault()
         const { data } = await MY_SERVICE.signup(this.state.formSignup)
-        Swal.fire(`Bienvenido ${data.usr.fullName}`, 'Su cuenta ha sido creada', 'success')
+        Swal.fire(`Cuenta creada`, 'Inicie sesión por favor', 'success')
       }
 
       handleLogin = (e, cb) => {
@@ -415,7 +415,6 @@ class MyProvider extends Component {
 
       selectPlace = async (e, elementId, userId) => {
           e.preventDefault()
-          console.log(elementId, userId)
           const all = {
             // maxDistance : this.state.maxDistance,
             // userCoordinates : this.state.userCoordinates

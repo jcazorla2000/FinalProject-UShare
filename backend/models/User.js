@@ -20,7 +20,13 @@ const userSchema = new Schema(
           type: Schema.Types.ObjectId,
           ref: "Ride"
       } 
-    ]
+    ],
+    actualRides: [
+      {
+          type: Schema.Types.ObjectId,
+          ref: "Ride"
+      }
+    ],
   },
   {
     timestamps: true,

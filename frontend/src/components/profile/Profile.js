@@ -25,7 +25,7 @@ export default function Profile(props) {
                     <h4 style={{"marginTop": "-30px"}}>{JSON.parse(localStorage.user).email}</h4>
                     <h3><strong>Estudiante en</strong></h3>
                     <h4 style={{"marginTop": "-30px"}}>{JSON.parse(localStorage.user).profile.university}</h4>
-                    <h3><strong>Viajes realizados</strong> {JSON.parse(localStorage.user).profile.numberRides}</h3>
+                    <h3><strong>Número de teléfono</strong> +55 {JSON.parse(localStorage.user).profile.telephoneNumber}</h3>
                     <Button 
                         style={{"backgroundColor": "black", "border": "2px solid black"}}
                         type="primary" 

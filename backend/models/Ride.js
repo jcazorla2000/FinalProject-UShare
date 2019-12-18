@@ -4,7 +4,7 @@ const rideSchema = new Schema(
     {
         departureTime: String,
         rideDirection: String,
-        numberPlaces: String,
+        numberPlaces: Number,
         universityDirection: String,
         departureTime: String,
         placeName: String,

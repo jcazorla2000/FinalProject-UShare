@@ -4,7 +4,7 @@ export default function AuthTemplate(props) {
     return (
         <div style= {
             {
-                "backgroundColor" : "#31837c",
+                "backgroundColor" : "#79a7a3",
                 "width" : "100vw",
                 "height" : "100vh",
                 "display" : "flex",

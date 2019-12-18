@@ -79,7 +79,7 @@ export default function Create(props) {
                             <TimePicker placeholder="Seleccione" defaultValue={moment('12:08', format)} format={format} onChange={context.handleChangeDepartureCreate}/>
                         </Form.Item>
                         <Form.Item>
-                        <Button style={{"marginBottom" : "1vh", "backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={(e) => context.handleCreateSubmit(e, () => props.history.push('/feed'))} type="primary" htmlType="submit">
+                        <Button style={{"marginBottom" : "1vh", "backgroundColor": "black", "border": "2px solid black"}} onClick={(e) => context.handleCreateSubmit(e, () => props.history.push('/feed'))} type="primary" htmlType="submit">
                             Finalizar
                         </Button>
                         </Form.Item>
@@ -130,7 +130,7 @@ export default function Create(props) {
                             <TimePicker placeholder="Seleccione" defaultValue={moment('12:08', format)} format={format} onChange={context.handleChangeDepartureCreate}/>
                         </Form.Item>
                         <Form.Item>
-                            <Button style={{"marginBottom" : "1vh", "backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={(e) => context.handleCreateSubmit(e, () => props.history.push('/feed'))} type="primary" htmlType="submit">
+                            <Button style={{"marginBottom" : "1vh", "backgroundColor": "black", "border": "2px solid black"}} onClick={(e) => context.handleCreateSubmit(e, () => props.history.push('/feed'))} type="primary" htmlType="submit">
                                 Finalizar
                             </Button>
                         </Form.Item>
@@ -146,7 +146,7 @@ export default function Create(props) {
                             </Select>
                         </Form.Item>
                         <Form.Item>
-                            <Button style={{"backgroundColor": "#31837c", "border": "2px solid #31837c"}} onClick={context.nextCreateStep} type="primary" htmlType="submit">
+                            <Button style={{"backgroundColor": "black", "border": "2px solid black"}} onClick={context.nextCreateStep} type="primary" htmlType="submit">
                                 Siguiente
                             </Button>
                         </Form.Item>

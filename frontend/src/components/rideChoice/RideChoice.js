@@ -16,13 +16,13 @@ export default function RideChoice(props) {
         <>
         <NavBar></NavBar>
         <AuthTemplate>
-        <div style={{"height" : "100%" ,"display" : "flex", "flexDirection" : "column", "justifyContent" : "space-around", "alignItems" : "center"}}>
+        <div style={{"height" : "80%" ,"display" : "flex", "flexDirection" : "column", "justifyContent" : "space-around", "alignItems" : "center"}}>
             {(localStorage.user) ? (JSON.parse(localStorage.user).role === "driver") ? 
             <>
                 <Link to={"/create"}>
                 <Card
                     hoverable
-                    style={{ "width": "300px", "height": "270px" , "border" : "6px solid white", "borderRadius" : "10px"}}
+                    style={{ "width": "300px", "height": "270px" , "border" : "6px solid white", "borderRadius" : "10px", "boxShadow": "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)"}}
                     cover={<img alt="example" src="https://cnet2.cbsistatic.com/img/B7-zkuz2jA4PZDXw5VibK63Fbw4=/2018/11/08/8d5d245a-7f16-43e2-a885-d376734fbc95/uberpool-pr-photo.jpg" />}
                 >
                     <Meta title="Ofrezca un viaje ahora" />
@@ -31,7 +31,7 @@ export default function RideChoice(props) {
                 <Link to={"/feed"}>
                 <Card
                     hoverable
-                    style={{ "width": "300px", "height": "270px"  , "border" : "6px solid white", "borderRadius" : "10px"}}
+                    style={{ "width": "300px", "height": "270px"  , "border" : "6px solid white", "borderRadius" : "10px", "boxShadow": "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)"}}
                     cover={<img alt="example" src="https://medici-prod.s3-us-west-2.amazonaws.com/uploads/challenges-opportunities-ride-sharing-industry.jpg" />}
                 >
                     <Meta title="Busca un viaje ahora" />

@@ -39,7 +39,7 @@ export default function Login(props) {
                     <Form.Item>
                         <Checkbox>Recuérdame</Checkbox>
                         <Button 
-                        style={{"backgroundColor": "#31837c", "border": "2px solid #31837c"}}
+                        style={{"backgroundColor": "black", "border": "2px solid black"}}
                         type="primary" 
                         htmlType="submit" 
                         className="login-form-button"

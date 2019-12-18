@@ -17,7 +17,7 @@ const profileSchema = new Schema(
         },
         photo: {
             type: String,
-            default: "https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwiSqqzlrqnmAhW1JzQIHVRbAYIQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.pinclipart.com%2Fpindetail%2FoRmRRm_user-profile-default-image-png-clipart%2F&psig=AOvVaw37Ia5G5O13cB1GheL6yX39&ust=1576008350565030",
+            default: "/profile_default.png",
             required: true
         },
         actualRides: [

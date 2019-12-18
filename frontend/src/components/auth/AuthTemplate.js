@@ -15,13 +15,13 @@ export default function AuthTemplate(props) {
                 {
                     "width" : "88vw",
                     "height" : "92vh",
-                    "boder" : "2px solid #a7bdbb",
-                    "borderRadius" : "10px",
-                    "backgroundColor" : "#a7bdbb",
+                    // "boder" : "2px solid #a7bdbb",
+                    // "borderRadius" : "10px",
+                    // "backgroundColor" : "#a7bdbb",
                     "display" : "flex",
                     "alignItems" : "center",
                     "flexDirection" : "column",
-                    "boxShadow": "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)"
+                    // "boxShadow": "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)"
                 }}>
                 {props.children}
             </div>

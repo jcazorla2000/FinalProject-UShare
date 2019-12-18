@@ -9,25 +9,30 @@ const { SubMenu } = Menu;
 
 const StyledNav = styled.nav`
     width: 100%;
-    background-color: #a7bdbb;
+    ${'' /* background-color: #a7bdbb; */}
+    background-color: black;
+    color: white!important;
     height: 7vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    h2 {
+        color: white;
+    }
 `
 
 export default function NavBar() {
     return (
         <StyledNav>
             <img style={{"width": "70px", "marginRight" : "-6vw", "marginTop" : "1.3vh"}} alt="logoimage" src="logo_transparent.png" />
-            <Link style={{"marginTop" : "2vh", "marginLeft": "4.5vw"}} to={"/rideChoice"}><h2>UShare</h2></Link>
+            <Link style={{"marginTop" : "2vh", "marginLeft": "4.5vw", "color": "white"}} to={"/rideChoice"}><h2>UShare</h2></Link>
             {/* <Link to={"/profile"} style={{"marginRight": "4vw"}}><Avatar shape="square" size="medium" icon="user" /></Link> */}
-            <Menu style={{"backgroundColor": "#a7bdbb"}} mode="horizontal">
+            <Menu style={{"backgroundColor": "black"}} mode="horizontal">
                 <SubMenu
                     title={
                         <span className="submenu-title-wrapper">
-                        <Icon type="setting" />
-                        Menú
+                        <Icon style={{"backgroundColor":"none",fontSize : "26px", color: "white", "border": "0 solid black", "marginTop": "2vh"}} type="menu" />
+                        
                         </span>
                     }
                     >

@@ -52,7 +52,10 @@ class MyProvider extends Component {
             zoom: 8
           },
         searchResultLayer: null,
-        userCoordinates : []
+        userCoordinates : [],
+        maxDistance : 0,
+        rideId: "",
+        rideUserId: ""
       }
       //---MAPBOX---
       mapRef = React.createRef();
@@ -186,7 +189,6 @@ class MyProvider extends Component {
             const userCoordinates = [position.coords.longitude, position.coords.latitude];
             this.setState({userCoordinates: userCoordinates})
         });
-        setTimeout(this.findRides(), 200) 
         if (document.cookie) {
           MY_SERVICE.getUser()
             .then(({ data }) => {
@@ -209,10 +211,15 @@ class MyProvider extends Component {
         // })
         // .catch(err => console.log(err))
         
+
         navigator.geolocation.getCurrentPosition(position => {
             const userCoordinates = [position.coords.longitude, position.coords.latitude];
             this.setState({userCoordinates})     
         });
+
+        navigator.geolocation.getCurrentPosition(position => {
+            const userCoordinates = [position.coords.longitude, position.coords.latitude];
+            this.setState({userCoordinates})},()=> null,{timeout:500});
         
         if (localStorage.user && !this.state.id){
             this.setState({
@@ -223,7 +230,8 @@ class MyProvider extends Component {
 
       findRides = () => {
         const all = {
-            ...this.state.userCoordinates
+            maxDistance : this.state.maxDistance,
+            userCoordinates : this.state.userCoordinates
         }
         MY_SERVICE.feed(all)
             .then(({data: {ride}}) => {
@@ -234,6 +242,30 @@ class MyProvider extends Component {
                 
             })
             .catch(err => console.log(err))
+      }
+      
+      selectPlace = (e, rideId, userId) => {
+        const all = {
+            maxDistance : this.state.maxDistance,
+            userCoordinates : this.state.userCoordinates
+        }
+        MY_SERVICE.feed(all)
+            .then(({data: {ride}}) => {
+                this.setState({
+                    ...this.state,
+                    foundRides: ride
+                })
+                
+            })
+            .catch(err => console.log(err))
+      }
+
+      handleChangeMaxDistance = (value) => {
+          
+        this.setState({
+            ...this.state,
+            maxDistance : value
+        })
       }
 
       handleSignup = async e => {
@@ -331,9 +363,13 @@ class MyProvider extends Component {
       handleCreate = async e => {
         e.persist()
         Swal.fire(`Viaje creado`, '', 'success')
-        let data  = await MY_SERVICE.create(this.state.formCreate, JSON.parse(localStorage.user))
-        data = null
-        
+        let {data:{usr}}  = await MY_SERVICE.create(this.state.formCreate, JSON.parse(localStorage.user))
+        usr = JSON.stringify(usr)
+        localStorage.setItem("user", usr);
+        this.setState({
+            ...this.state,
+            formCreateStep : 0
+        })
       }
 
       handleCreateSubmit = (e, cb) => {
@@ -370,7 +406,30 @@ class MyProvider extends Component {
             elementId,
             userId
         }
-        let data  = await MY_SERVICE.endRide({allItems})
+        Swal.fire(`Viaje terminado`, '', 'success')
+        let {data: {usr}}  = await MY_SERVICE.endRide(allItems)
+        console.log(usr)
+        usr = JSON.stringify(usr)
+        localStorage.setItem("user", usr);
+      }
+
+      selectPlace = async (e, elementId, userId) => {
+          e.preventDefault()
+          console.log(elementId, userId)
+          const all = {
+            // maxDistance : this.state.maxDistance,
+            // userCoordinates : this.state.userCoordinates
+            elementId : elementId,
+            userId : userId
+          }
+        //   MY_SERVICE.feed(all)
+        //     .then( res => console.log(res))
+        //     .catch(err => console.log(err))
+        let {data: {user}}  = await MY_SERVICE.feed(all)
+        console.log(user)
+        user = JSON.stringify(user)
+        localStorage.setItem("user", user);
+        
       }
       
     render() {
@@ -411,7 +470,9 @@ class MyProvider extends Component {
                 handleCreateSubmit : this.handleCreateSubmit,
                 findRides : this.findRides,
                 foundRides: this.state.foundRides,
-                endRide: this.endRide
+                endRide: this.endRide,
+                handleChangeMaxDistance : this.handleChangeMaxDistance,
+                selectPlace : this.selectPlace
                 }}>
                 {this.props.children}
             </MyContext.Provider>

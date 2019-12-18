@@ -76,15 +76,15 @@ router.get('/profile', isAuth, (req, res, next) => {
 
 router.post("/create", (req, res) => {
   const {rideDirection, universityDirection, departureTime, numberPlaces, driver, coords, placeName} = req.body
-  console.log(req.body)
+  
   const lat = coords.lat
   const lng = coords.long
   if (rideDirection === "fromUniversity" && universityDirection === "Tecnologico de Monterrey, Santa Fe"){
     const newRide = {rideDirection, numberPlaces, departureTime, universityDirection,  place:{coordinates:[-99.258731,19.359274]}, driver , placeName, coords}
     Ride.create(newRide)
     .then(result => {
-      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}})
-        .then(usr => console.log(usr))
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides": result._id}}, {new: true}).populate("profile").populate("ownedRides")
+        .then(usr => res.status(200).json({ usr }))
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
@@ -93,8 +93,8 @@ router.post("/create", (req, res) => {
     const newRide = {rideDirection, numberPlaces, departureTime, universityDirection,  place:{coordinates:[-99.2635995, 19.370993249999998]}, driver, placeName, coords }
     Ride.create(newRide)
     .then(result => {
-      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}})
-        .then(usr => console.log(usr))
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}}, {new: true}).populate("profile").populate("ownedRides")
+        .then(usr => res.status(200).json({ usr }))
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
@@ -104,8 +104,8 @@ router.post("/create", (req, res) => {
       long: 19.359274} }
     Ride.create(newRide)
     .then(result => {
-      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}})
-        .then(usr => console.log(usr))
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}}, {new: true}).populate("profile").populate("ownedRides")
+        .then(usr => res.status(200).json({ usr }))
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
@@ -115,8 +115,8 @@ router.post("/create", (req, res) => {
       long: 19.370993249999998} }
     Ride.create(newRide)
     .then(result => {
-      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}})
-        .then(usr => console.log(usr))
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}}, {new: true}).populate("profile").populate("ownedRides")
+        .then(usr => res.status(200).json({ usr }))
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
@@ -126,36 +126,77 @@ router.post("/create", (req, res) => {
 //-----Feed-----
 
 router.post('/feed', async (req, res, next) => {
-  const coords = req.body
-  Ride.find({
-      place: {
-        $nearSphere: {
-          $geometry: {
-            type: "Point",
-            coordinates: [coords[0], coords[1]]
-          },
-          $maxDistance: 1000
+  console.log(req.body)
+  if (req.body.userId){
+    const { userId, elementId} = req.body
+
+    const ride = await Ride.findByIdAndUpdate(elementId, {$push : {"passengers": userId}}, {new: true})
+    const user = await User.findOne({_id: userId}).populate("profile")
+
+    user.profile.actualRides.push(elementId);
+    user.save();
+
+    console.log('ride', ride)
+    console.log('user', user)
+    res.status(200).json({ user })
+
+
+    // Ride.findByIdAndUpdate(elementId, {$push : {"passengers": userId}}, {new: true})
+    //   .then(() => {
+    //     User.findOne({_id: userId}).populate("profile")
+    //       .then(usr => {
+    //         User.findByIdAndUpdate(usr._id, {$push : {"profile.actualRides": elementId}},  {new: true})
+    //           .then(newUser => res.status(200).json({ newUser }))
+    //           .catch(err => console.log(err))
+    //     })
+    //       .catch(err => console.log(err))
+    //     }
+    //   )
+    //   .catch(err => console.log(err))
+  }
+  else {
+    const {userCoordinates} = req.body
+    const {maxDistance} = req.body
+    Ride.find({
+        place: {
+          $nearSphere: {
+            $geometry: {
+              type: "Point",
+              coordinates: [userCoordinates[0], userCoordinates[1]]
+            },
+            $maxDistance: maxDistance
+          }
         }
-      }
-    }).populate({
-      path: 'driver',
-      model: 'User',
-      populate: {
-        path: 'profile',
-        model: 'Profile'
-      }
-    }).then((ride) => {
-      // console.log(ride)
-      res.status(200).json({ ride })
-    })
-      .catch((err) => {
-        console.log(err)
-        res.status(500).json({ err })});
-    // res.status(200).json({ foundRides })
+      }).populate({
+        path: 'driver',
+        model: 'User',
+        populate: {
+          path: 'profile',
+          model: 'Profile'
+        }
+      }).then((ride) => {
+        // console.log(ride)
+        res.status(200).json({ ride })
+      })
+        .catch((err) => {
+          console.log(err)
+          res.status(500).json({ err })});
+      // res.status(200).json({ foundRides })
+  }
 });
+
 
 router.post("/myRides", async (req, res, next)=> {
   console.log(req.body)
+  const {elementId, userId} = req.body
+  Ride.findByIdAndRemove(elementId)
+    .then( () => User.findByIdAndUpdate(userId, {$pull: {ownedRides: { $in: elementId }}}, {new: true}).populate("profile").populate("ownedRides")
+            .then( usr => {
+              console.log(usr)
+              res.status(200).json({ usr })})
+            .catch( err => console.error(err))
+    )
+    .catch(err => console.log(err))
 })
 
 function isAuth(req, res, next) {

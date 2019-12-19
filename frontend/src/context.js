@@ -20,12 +20,11 @@ class MyProvider extends Component {
           university: "",
           departureTime: "",
           returnTime: "",
-          photo: "",
           role: "",
           carModel: "",
           carColor: "",
-          file:{}
         },
+        file:{},
         signupFinished: 0,
         formSignupStep: 0,
         formCreateStep: 0,
@@ -271,9 +270,20 @@ class MyProvider extends Component {
 
       handleSignup = async e => {
         e.preventDefault()
-        console.log(this.state.formSignup.file)
-        const { data } = await MY_SERVICE.signup(this.state.formSignup)
+        // console.log(this.state.formSignup)
+        const formData = new FormData()
+        for(let key in this.state.formSignup){
+            formData.append(key, this.state.formSignup[key])
+            console.log(key, this.state.formSignup[key])
+        }
+        formData.append("photo", this.state.file)
+        console.log(this.state.file)
+        const { data } = await MY_SERVICE.signup(formData)
         Swal.fire(`Cuenta creada`, 'Inicie sesión por favor', 'success')
+        this.setState({
+            ...this.state,
+            formSignupStep: 0
+        })
       }
 
       handleLogin = (e, cb) => {
@@ -437,12 +447,9 @@ class MyProvider extends Component {
         //   console.log(e.target.files[0])
         await this.setState({
             ...this.state,
-            formSignup: {
-                ...this.state.formSignup,
-                file: e.target.files[0]
-            }
-        })
-        console.log(this.state.formSignup.file)
+            file: e.target.files[0]
+            })
+        console.log(this.state.file)
       }
       
     render() {

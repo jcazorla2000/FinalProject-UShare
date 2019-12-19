@@ -8,14 +8,17 @@ const upload = require('../config/cloudinary');
 
 //-----Auth-----
 
-router.post('/signup', (req, res, next) => {
+router.post('/signup', upload.single("photo"),(req, res, next) => {
   console.log(req.body)
+  console.log(req.file)
   console.log(req.body.file)
   if (req.body.role === "driver"){
     const {fullName, email, telephoneNumber, university, password, role, carModel, carColor, returnTime, departureTime} = req.body
     User.register({fullName, email, role}, password)
     .then((user) => {
-      Profile.create({telephoneNumber, university, password, carModel, carColor, returnTime, departureTime})
+      if (req.file){
+        const {secure_url} = req.file
+        Profile.create({telephoneNumber, university, password, carModel, carColor, returnTime, departureTime, photo: secure_url})
         .then ( profile => {
           User.findByIdAndUpdate(user._id, {profile : profile._id})
           .populate('profile')
@@ -26,7 +29,20 @@ router.post('/signup', (req, res, next) => {
             .catch(err => console.log(err))
         })
         .catch ((err) =>  console.log(err))
-      
+      }
+      else {
+        Profile.create({telephoneNumber, university, password, carModel, carColor, returnTime, departureTime})
+          .then ( profile => {
+            User.findByIdAndUpdate(user._id, {profile : profile._id})
+            .populate('profile')
+              .then(usr => {
+                User.findById(user._id).populate('profile')
+                .then(usr => res.status(201).json( { usr, profile} ))
+              })
+              .catch(err => console.log(err))
+          })
+          .catch ((err) =>  console.log(err))
+      }
     })
     .catch((err) =>  {
       console.log(err)
@@ -37,7 +53,9 @@ router.post('/signup', (req, res, next) => {
     const {fullName, email, telephoneNumber, university, password, role, departureTime, returnTime} = req.body
     User.register({fullName, email, role}, password)
     .then((user) => {
-      Profile.create({telephoneNumber, university, password, departureTime, returnTime})
+      if (req.file){
+        const {secure_url} = req.file
+        Profile.create({telephoneNumber, university, password, departureTime, returnTime, photo: secure_url})
         .then ( profile => {
           User.findByIdAndUpdate(user._id, {profile : profile._id})
           .populate('profile')
@@ -48,7 +66,20 @@ router.post('/signup', (req, res, next) => {
             .catch(err => console.log(err))
         })
         .catch ((err) =>  console.log(err))
-      
+      }
+      else {
+        Profile.create({telephoneNumber, university, password, departureTime, returnTime})
+          .then ( profile => {
+            User.findByIdAndUpdate(user._id, {profile : profile._id})
+            .populate('profile')
+              .then(usr => {
+                User.findById(user._id).populate('profile')
+                .then(usr => res.status(201).json( { usr, profile} ))
+              })
+              .catch(err => console.log(err))
+          })
+          .catch ((err) =>  console.log(err))
+      }
     })
     .catch((err) =>  {
       console.log(err)

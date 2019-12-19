@@ -1,6 +1,6 @@
 import axios from 'axios';
-const baseURL = 'https://still-retreat-53219.herokuapp.com/';
-// const baseURL = "http://localhost:3000"
+// const baseURL = 'https://still-retreat-53219.herokuapp.com/';
+const baseURL = "http://localhost:3000"
 
 const service = axios.create({ withCredentials: true, baseURL });
 

@@ -6,7 +6,7 @@ export default function AuthTemplate(props) {
             {
                 "backgroundColor" : "#79a7a3",
                 "width" : "100vw",
-                "height" : "100vh",
+                "height" : "90vh",
                 "display" : "flex",
                 "justifyContent" : "center",
                 "alignItems" : "center"

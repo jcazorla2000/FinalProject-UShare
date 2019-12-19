@@ -4,6 +4,7 @@ import { MyContext } from '../../context'
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import './login.css';
 import AuthTemplate from './AuthTemplate';
+import FooterLayout from '../Footer';
 
 export default function Login(props) {
         return (
@@ -11,6 +12,7 @@ export default function Login(props) {
             {context => (
                 <>
                 {(!localStorage.user) ?
+                    <>
                     <AuthTemplate >
                     <div style={{"width": "100%", "height" : "100%", "display" : "flex", "alignItems" : "center", "justifyContent" : "center", "flexDirection" : "column"}}>
                     <img style={{"width": "200px", "marginTop": "-30vpx", "marginBottom":"10px"}} src="logo_transparent.png" alt="LogoImage"/>
@@ -55,6 +57,8 @@ export default function Login(props) {
                     </Form>
                     </div>
                     </AuthTemplate>
+                    <FooterLayout></FooterLayout>
+                    </>
                 :
                     props.history.push("/rideChoice")  
                 }

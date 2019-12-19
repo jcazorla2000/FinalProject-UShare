@@ -16,7 +16,7 @@ export default function RideChoice(props) {
         <>
         <NavBar></NavBar>
         <AuthTemplate>
-        <div style={{"height" : "80%" ,"display" : "flex", "flexDirection" : "column", "justifyContent" : "space-around", "alignItems" : "center"}}>
+        <div style={{"marginTop":"8vh","height" : "80%" ,"display" : "flex", "flexDirection" : "column", "justifyContent" : "space-around", "alignItems" : "center"}}>
             {(localStorage.user) ? (JSON.parse(localStorage.user).role === "driver") ? 
             <>
                 <Link to={"/create"}>

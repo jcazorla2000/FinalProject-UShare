@@ -8,7 +8,7 @@ import { Button, Select, Icon } from "antd"
 const { Option } = Select;
 
 const CustomCard = styled.div`
-    height: 250px;
+    height: 320px;
     width: 80vw;
     background-color: whitesmoke;
     border: 4px solid whitesmoke;
@@ -56,7 +56,7 @@ export default function Feed(props) {
                             </div>
                             <div style= {{"overflow": "scroll", "display" : "flex", "flexDirection": "column", "alignItems": "center", "height": "85vh"}}>
                                 {context.foundRides.map((element, index)=> (
-                                    <div key={index} style={{"height": "220px", "marginBottom": "5vh"}}>
+                                    <div key={index} style={{"height": "290px", "marginBottom": "5vh"}}>
                                     <CustomCard key={index}>
                                         <div style={{"display":"flex", "justifyContent": "flexStart", "width": "100%"}} >
                                             <img style={{"width": "40px", "height": "40px", "margin":"10px 20px 0 10px"}} src={element.driver.profile.photo} alt="Driverimage"/>
@@ -64,6 +64,11 @@ export default function Feed(props) {
                                                 <h4>{element.driver.fullName}</h4>
                                                 <p>{(element.driver.profile.university === "Tecnologico de Monterrey, Santa Fe") ? "TEC Campus Santa Fe":"Universidad Iberoamericana"}</p>
                                             </div>
+                                        </div>
+                                        <div style={{"display":"flex","flexDirection":"column","justifyContent":"center", "width": "100%"}}>
+                                            <p style={{"marginLeft": "20px"}}><strong>Modelo del coche</strong> {element.driver.profile.carModel}</p>
+                                           
+                                            <p style={{"marginLeft": "20px"}}><strong>Color</strong> {element.driver.profile.carColor}</p>
                                         </div>
                                         <div style={{"display":"flex","justifyContent":"center", "width": "100%"}}>
                                             <p style={{"marginLeft": "20px"}}><strong>Hora salida</strong> {element.departureTime}</p>

@@ -9,6 +9,8 @@ const upload = require('../config/cloudinary');
 //-----Auth-----
 
 router.post('/signup', (req, res, next) => {
+  console.log(req.body)
+  console.log(req.body.file)
   if (req.body.role === "driver"){
     const {fullName, email, telephoneNumber, university, password, role, carModel, carColor, returnTime, departureTime} = req.body
     User.register({fullName, email, role}, password)
@@ -57,7 +59,7 @@ router.post('/signup', (req, res, next) => {
 
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
   const { user } = req;
-  User.findById(user._id).populate("profile").populate("ownedRides")
+  User.findById(user._id).populate("profile").populate("ownedRides").populate("actualRides")
     .then(user => res.status(200).json({ user }))
     .catch(err => console.log(err))
 });
@@ -94,7 +96,7 @@ router.post("/create", (req, res) => {
     const newRide = {rideDirection, numberPlaces, departureTime, universityDirection,  place:{coordinates:[-99.2635995, 19.370993249999998]}, driver, placeName, coords }
     Ride.create(newRide)
     .then(result => {
-      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}}, {new: true}).populate("profile").populate("ownedRides")
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}}, {new: true}).populate("profile").populate("ownedRides").populate("actualRides")
         .then(usr => res.status(200).json({ usr }))
         .catch(err => console.log(err))
     })
@@ -105,7 +107,7 @@ router.post("/create", (req, res) => {
       long: 19.359274} }
     Ride.create(newRide)
     .then(result => {
-      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}}, {new: true}).populate("profile").populate("ownedRides")
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}}, {new: true}).populate("profile").populate("ownedRides").populate("actualRides")
         .then(usr => res.status(200).json({ usr }))
         .catch(err => console.log(err))
     })
@@ -116,7 +118,7 @@ router.post("/create", (req, res) => {
       long: 19.370993249999998} }
     Ride.create(newRide)
     .then(result => {
-      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}}, {new: true}).populate("profile").populate("ownedRides")
+      User.findByIdAndUpdate(result.driver, {$push : {"ownedRides" : result._id}}, {new: true}).populate("profile").populate("ownedRides").populate("actualRides")
         .then(usr => res.status(200).json({ usr }))
         .catch(err => console.log(err))
     })
@@ -201,29 +203,36 @@ router.post('/feed', async (req, res, next) => {
 
 
 router.post("/myRides", async (req, res, next)=> {
-  console.log(req.body)
+  // console.log(req.body)
   const {elementId, userId} = req.body
   Ride.findById(elementId)
   .then(thisRide => {
-    thisRide.passengers.forEach((element, index) => {
-    console.log(element, index,"--")
-  })}
+    if (thisRide.passengers.length > 0){
+      thisRide.passengers.forEach((element, index) => {
+        console.log(element, index,"--")
+        User.findByIdAndUpdate(element, {$pull: {actualRides: { $in: elementId }}}, {new: true})
+          .then(() => null)
+          .catch(err => console.log(err))
+      })
+    }
+    }
   )
   .catch(err => console.log(err))
   Ride.findByIdAndRemove(elementId)
     .then( () => User.findByIdAndUpdate(userId, {$pull: {ownedRides: { $in: elementId }}}, {new: true})
-    .populate("profile")
+    .populate("actualRides")
     .populate("ownedRides")
-    .populate({
-      path: 'profile',
-      model: 'User',
-      populate: {
-        path: 'actualRides',
-        model: 'Profile'
-      }
-    })
+    .populate("profile")
+    // .populate({
+    //   path: 'profile',
+    //   model: 'User',
+    //   populate: {
+    //     path: 'actualRides',
+    //     model: 'Profile'
+    //   }
+    // })
       .then( usr => {
-        console.log(usr)
+        // console.log(usr)
         res.status(200).json({ usr })
       })
       .catch( err => console.error(err))

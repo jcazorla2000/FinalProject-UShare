@@ -2,20 +2,20 @@ import React from 'react'
 import { Steps } from 'antd';
 import { MyContext } from '../../context'
 import {Link} from "react-router-dom"
-import moment from 'moment';
+// import moment from 'moment';
 import {
     Form,
     Input,
     Tooltip,
     Icon,
-    Upload,
+    // Upload,
     Select,
     Button,
-    TimePicker
+    // TimePicker
   } from 'antd';
 const { Step } = Steps;
 const { Option } = Select;
-const format = 'HH:mm';
+// const format = 'HH:mm';
 
 const prefixSelector = (
     <Select placeholder="+55" style={{ width: 70 }}>
@@ -135,12 +135,14 @@ export default function Signup(props) {
                                 :
                                         (context.formSignup.role === "driver") ? 
                                             <Form>
-                                            <Form.Item label="Hora habitual de salida">
+                                            <div style={{"width":"100%", "display":"flex","justifyContent":"center"}}>
+                                            <div style={{"display":"flex","flexDirection":"column", "width":"60%","alignItems":"center"}}>
+                                            {/* <Form.Item label="Hora habitual de salida">
                                                 <TimePicker defaultValue={moment('08:00', format)} format={format} onChange={context.handleChangeDeparture}/>
                                             </Form.Item>
                                             <Form.Item label="Hora habitual de regreso">
                                                 <TimePicker defaultValue={moment('15:00', format)} format={format} onChange={context.handleChangeReturn}/>
-                                            </Form.Item>
+                                            </Form.Item> */}
                                             <Form.Item label="Modelo de su coche">
                                                 <Input
                                                 name="carModel" 
@@ -155,9 +157,10 @@ export default function Signup(props) {
                                                 onChange={e => context.handleInput(e, 'formSignup')} 
                                                 value={context.formSignup.carColor}/>
                                             </Form.Item>
-
-                                            <Form.Item label="Suba una foto">
-                                                <Upload.Dragger name="files" action="/upload.do">
+                                                <p>Suba una foto</p>
+                                                <input onChange={context.handleFile} type="file" name="photo" />
+                                            {/* <Form.Item label="Suba una foto">
+                                                <Upload.Dragger onChange={context.handleFile} name="files" action="/upload.do">
                                                 <p className="ant-upload-drag-icon">
                                                     <Icon type="inbox" />
                                                 </p>
@@ -165,7 +168,7 @@ export default function Signup(props) {
                                                 <p className="ant-upload-hint">Solo suba una</p>
                                                 </Upload.Dragger>
                                                 
-                                            </Form.Item>
+                                            </Form.Item> */}
                                             
                                                     <Button 
                                                 style={{"backgroundColor": "black", "border": "2px solid black"}}
@@ -175,25 +178,27 @@ export default function Signup(props) {
                                                 >
                                                     Finalizar
                                                 </Button>
+                                                </div>
+                                                </div>
                                             </Form>
                                         :
                                             <Form>
-                                            <Form.Item label="Hora habitual de salida">
+                                            {/* <Form.Item label="Hora habitual de salida">
                                                 <TimePicker defaultValue={moment('08:00', format)} format={format} onChange={context.handleChangeDeparture}/>
                                             </Form.Item>
                                             <Form.Item label="Hora habitual de regreso">
                                                 <TimePicker defaultValue={moment('15:00', format)} format={format} onChange={context.handleChangeReturn}/>
-                                            </Form.Item>
+                                            </Form.Item> */}
 
                                             <Form.Item label="Suba una foto">
-                                                <Upload.Dragger name="files" action="/upload.do">
+                                                {/* <Upload.Dragger onChange={context.handleFile} name="files" action="/upload.do">
                                                 <p className="ant-upload-drag-icon">
                                                     <Icon type="inbox" />
                                                 </p>
                                                 <p className="ant-upload-text">Haga click o arrastre un archivo</p>
                                                 <p className="ant-upload-hint">Solo suba una</p>
-                                                </Upload.Dragger>
-                                                
+                                                </Upload.Dragger> */}
+                                                <input onChange={context.handleFile} type="file" name="photo" />
                                             </Form.Item>
 
                                             <Button 

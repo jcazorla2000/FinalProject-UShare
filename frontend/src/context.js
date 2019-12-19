@@ -23,7 +23,8 @@ class MyProvider extends Component {
           photo: "",
           role: "",
           carModel: "",
-          carColor: ""
+          carColor: "",
+          file:{}
         },
         signupFinished: 0,
         formSignupStep: 0,
@@ -270,6 +271,7 @@ class MyProvider extends Component {
 
       handleSignup = async e => {
         e.preventDefault()
+        console.log(this.state.formSignup.file)
         const { data } = await MY_SERVICE.signup(this.state.formSignup)
         Swal.fire(`Cuenta creada`, 'Inicie sesión por favor', 'success')
       }
@@ -340,15 +342,15 @@ class MyProvider extends Component {
 
       handleSignupSubmit = (e, cb) => {
           e.preventDefault()
-          const {role, departureTime, returnTime, carColor, carModel } = this.state.formSignup
-          if (role === "driver" && departureTime !== "" && returnTime !== "" && carColor !== "" && carModel !== ""){
+          const {role, carColor, carModel} = this.state.formSignup
+          if (role === "driver" &&  carColor !== "" && carModel !== ""){
             this.handleSignup(e)
             this.setState({
                 signupFinished : ++this.state.signupFinished
             })
             cb()
           }
-          else if (role === "passenger" && departureTime !== "" && returnTime !== ""){
+          else if (role === "passenger" ){
             this.handleSignup(e)
             this.setState({
                 signupFinished : ++this.state.signupFinished
@@ -430,6 +432,18 @@ class MyProvider extends Component {
         localStorage.setItem("user", user);
         
       }
+
+      handleFile = async(e) => {
+        //   console.log(e.target.files[0])
+        await this.setState({
+            ...this.state,
+            formSignup: {
+                ...this.state.formSignup,
+                file: e.target.files[0]
+            }
+        })
+        console.log(this.state.formSignup.file)
+      }
       
     render() {
         return (
@@ -471,7 +485,8 @@ class MyProvider extends Component {
                 foundRides: this.state.foundRides,
                 endRide: this.endRide,
                 handleChangeMaxDistance : this.handleChangeMaxDistance,
-                selectPlace : this.selectPlace
+                selectPlace : this.selectPlace,
+                handleFile: this.handleFile
                 }}>
                 {this.props.children}
             </MyContext.Provider>

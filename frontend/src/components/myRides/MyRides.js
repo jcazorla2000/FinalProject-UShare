@@ -24,6 +24,8 @@ export default function MyRides(props) {
                     <>
                         <NavBar></NavBar>
                         <div style={{"width": "100vw","height": "100vh", "backgroundColor":"#79a7a3", "paddingTop": "2vh"}}>
+                            {(JSON.parse(localStorage.user).role === "driver") ? 
+                            <>
                             <div>
                                 <h2><strong>Mis viajes</strong></h2>
                             </div>
@@ -57,7 +59,11 @@ export default function MyRides(props) {
                                     </div>
                                 ))}
                             </div>
-                            <h2><strong>Pasajero en</strong></h2>
+                            </>
+                            :
+                            null
+                            }
+                            <h2 style={{"marginTop":"5vh"}}><strong>Pasajero en</strong></h2>
                             <div style= {{"overflow": "scroll", "display" : "flex", "flexDirection": "column", "alignItems": "center", "height": "40vh"}}>
                                 {(JSON.parse(localStorage.user).actualRides.length === 0) ? 
                                 <h2>Aun no tienes viajes</h2>
@@ -82,9 +88,9 @@ export default function MyRides(props) {
                                                 
                                             </>
                                             }
-                                        <Button style={{"marginBottom" : "1vh", "backgroundColor": "black", "border": "2px solid black"}} onClick={(e) => context.endRide(e, element._id)} type="primary" htmlType="submit">
+                                        {/* <Button style={{"marginBottom" : "1vh", "backgroundColor": "black", "border": "2px solid black"}} onClick={(e) => context.endRide(e, element._id)} type="primary" htmlType="submit">
                                             Abandonar viaje
-                                        </Button>
+                                        </Button> */}
                                         </CustomCard>
                                     </div>
                                 ))}

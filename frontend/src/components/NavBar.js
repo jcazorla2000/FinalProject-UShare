@@ -39,9 +39,9 @@ export default function NavBar() {
                     <Menu.ItemGroup style={{"marginTop":"-20px"}} title="">
                         {(localStorage.user) ? 
                         <Menu.ItemGroup title="">
-                            <Menu.Item key="Perfil"><Link to={"/profile"} style={{"marginRight": "4vw"}}><p>Perfil</p></Link></Menu.Item>
-                            <Menu.Item key="MisViajes"><Link to={"/myRides"} style={{"marginRight": "4vw"}}><p>Mis viajes</p></Link></Menu.Item>
-                            <Menu.Item key="BuscarViajes"><Link to={"/feed"} style={{"marginRight": "4vw"}}><p>Buscar viaje</p></Link></Menu.Item>
+                            <Menu.Item key="Perfil"><Link to={"/profile"} style={{"marginRight": "4vw"}}><p><Icon type="user" />Perfil</p></Link></Menu.Item>
+                            <Menu.Item key="MisViajes"><Link to={"/myRides"} style={{"marginRight": "4vw"}}><p><Icon type="car" />Mis viajes</p></Link></Menu.Item>
+                            <Menu.Item key="BuscarViajes"><Link to={"/feed"} style={{"marginRight": "4vw"}}><p><Icon type="search" />Buscar viaje</p></Link></Menu.Item>
                         </Menu.ItemGroup>
                         :
                         <Menu.ItemGroup title="">
@@ -49,7 +49,7 @@ export default function NavBar() {
                             <Menu.Item key="Registrarme"><Link to={"/signup"} style={{"marginRight": "4vw"}}><p>Registrarme</p></Link></Menu.Item>
                         </Menu.ItemGroup>
                         }
-                        {(localStorage.user) ? (JSON.parse(localStorage.user).role === "driver") ? <Menu.Item key="Crear"><Link to={"/create"} style={{"marginRight": "4vw"}}><p>Nuevo viaje</p></Link></Menu.Item> : null : null}
+                        {(localStorage.user) ? (JSON.parse(localStorage.user).role === "driver") ? <Menu.Item key="Crear"><Link to={"/create"} style={{"marginRight": "4vw"}}><p><Icon type="plus-circle" />Nuevo viaje</p></Link></Menu.Item> : null : null}
                     </Menu.ItemGroup>
                 </SubMenu>
             </Menu>

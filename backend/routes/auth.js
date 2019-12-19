@@ -9,9 +9,6 @@ const upload = require('../config/cloudinary');
 //-----Auth-----
 
 router.post('/signup', upload.single("photo"),(req, res, next) => {
-  console.log(req.body)
-  console.log(req.file)
-  console.log(req.body.file)
   if (req.body.role === "driver"){
     const {fullName, email, telephoneNumber, university, password, role, carModel, carColor, returnTime, departureTime} = req.body
     User.register({fullName, email, role}, password)
@@ -160,46 +157,16 @@ router.post("/create", (req, res) => {
 //-----Feed-----
 
 router.post('/feed', async (req, res, next) => {
-  console.log(req.body)
   if (req.body.userId){
     const { userId, elementId} = req.body
 
     const ride = await Ride.findByIdAndUpdate(elementId, {$push : {"passengers": userId}, $inc : {numberPlaces : -1, "metrics.orders": 1 }}, {new: true})
     const user = await User.findOne({_id: userId}).populate("profile").populate("ownedRides").populate("actualRides")
-    // const profile = await Profile.findByIdAndUpdate(user.profile._id, {new: true})
 
     user.actualRides.push(elementId)
     user.save()
-    // profile.actualRides.push(elementId)
-    // profile.save()
+
     res.status(200).json({ user })
-    // user.profile.actualRides.push(elementId);
-    // User.findByIdAndUpdate(user._id, user).populate("profile")
-    //   .then(usr => res.status(200).json({ usr }))
-    //   .catch(err => console.log(err))
-    // user.save((err, user) => {
-    //   if (err) {
-    //     return console.log(err)
-    //   }
-    //   res.status(200).json({ user })
-    // });
-
-    // console.log('ride', ride)
-    // console.log('user', user)
-
-
-    // Ride.findByIdAndUpdate(elementId, {$push : {"passengers": userId}}, {new: true})
-    //   .then(() => {
-    //     User.findOne({_id: userId}).populate("profile")
-    //       .then(usr => {
-    //         User.findByIdAndUpdate(usr._id, {$push : {"profile.actualRides": elementId}},  {new: true})
-    //           .then(newUser => res.status(200).json({ newUser }))
-    //           .catch(err => console.log(err))
-    //     })
-    //       .catch(err => console.log(err))
-    //     }
-    //   )
-    //   .catch(err => console.log(err))
   }
   else {
     const {userCoordinates} = req.body
@@ -222,25 +189,21 @@ router.post('/feed', async (req, res, next) => {
           model: 'Profile'
         }
       }).then((ride) => {
-        // console.log(ride)
         res.status(200).json({ ride })
       })
         .catch((err) => {
           console.log(err)
           res.status(500).json({ err })});
-      // res.status(200).json({ foundRides })
   }
 });
 
 
 router.post("/myRides", async (req, res, next)=> {
-  // console.log(req.body)
   const {elementId, userId} = req.body
   Ride.findById(elementId)
   .then(thisRide => {
     if (thisRide.passengers.length > 0){
       thisRide.passengers.forEach((element, index) => {
-        console.log(element, index,"--")
         User.findByIdAndUpdate(element, {$pull: {actualRides: { $in: elementId }}}, {new: true})
           .then(() => null)
           .catch(err => console.log(err))
@@ -254,14 +217,6 @@ router.post("/myRides", async (req, res, next)=> {
     .populate("actualRides")
     .populate("ownedRides")
     .populate("profile")
-    // .populate({
-    //   path: 'profile',
-    //   model: 'User',
-    //   populate: {
-    //     path: 'actualRides',
-    //     model: 'Profile'
-    //   }
-    // })
       .then( usr => {
         // console.log(usr)
         res.status(200).json({ usr })
@@ -269,17 +224,6 @@ router.post("/myRides", async (req, res, next)=> {
       .catch( err => console.error(err))
     )
     .catch(err => console.log(err))
-  //   .then( usr => {
-  //     Profile.findById(usr.profile._id).populate("actualRides")
-  //       .then(profile => {
-  //         console.log(profile)
-  //         res.status(200).json({ usr, profile })
-  //       })
-  //       .catch(err => console.log(err))
-  //     })
-  //   .catch( err => console.error(err))
-  // )
-  // .catch(err => console.log(err))
 })
 
 function isAuth(req, res, next) {

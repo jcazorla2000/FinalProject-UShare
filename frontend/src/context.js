@@ -76,7 +76,6 @@ class MyProvider extends Component {
       };
 
       handleOnResult = event => {
-        console.log(event.result);
         this.setState({
             ...this.state,
             formCreate : {
@@ -133,7 +132,6 @@ class MyProvider extends Component {
       }
 
       handleChangeRideDirection = (value) => {
-          console.log(value)
         this.setState({
             ...this.state,
             formCreate : {
@@ -205,13 +203,7 @@ class MyProvider extends Component {
       }
 
       componentDidUpdate = () => {
-        // MY_SERVICE.feed()
-        // .then(({data}) => {
-        //     console.log(data)
-        // })
-        // .catch(err => console.log(err))
         
-
         navigator.geolocation.getCurrentPosition(position => {
             const userCoordinates = [position.coords.longitude, position.coords.latitude];
             this.setState({userCoordinates})     
@@ -243,22 +235,6 @@ class MyProvider extends Component {
             })
             .catch(err => console.log(err))
       }
-      
-    //   selectPlace = (e, rideId, userId) => {
-    //     const all = {
-    //         maxDistance : this.state.maxDistance,
-    //         userCoordinates : this.state.userCoordinates
-    //     }
-    //     MY_SERVICE.feed(all)
-    //         .then(({data: {ride}}) => {
-    //             this.setState({
-    //                 ...this.state,
-    //                 foundRides: ride
-    //             })
-                
-    //         })
-    //         .catch(err => console.log(err))
-    //   }
 
       handleChangeMaxDistance = (value) => {
           
@@ -270,14 +246,11 @@ class MyProvider extends Component {
 
       handleSignup = async e => {
         e.preventDefault()
-        // console.log(this.state.formSignup)
         const formData = new FormData()
         for(let key in this.state.formSignup){
             formData.append(key, this.state.formSignup[key])
-            console.log(key, this.state.formSignup[key])
         }
         formData.append("photo", this.state.file)
-        console.log(this.state.file)
         const { data } = await MY_SERVICE.signup(formData)
         Swal.fire(`Cuenta creada`, 'Inicie sesión por favor', 'success')
         this.setState({
@@ -305,7 +278,6 @@ class MyProvider extends Component {
 
       handleLogout = async e => {
         e.preventDefault()
-        // await MY_SERVICE.logout()
         window.localStorage.clear()
         this.setState({ loggedUser: false, user: {} })
       }
@@ -389,7 +361,6 @@ class MyProvider extends Component {
           const {coords, departureTime, numberPlaces, universityDirection, rideDirection} = this.state.formCreate
           const {lat, long} = coords
           const id = JSON.parse(localStorage.user)._id
-          console.log(id)
           this.setState({
               ...this.state,
               formCreate : {
@@ -397,7 +368,6 @@ class MyProvider extends Component {
                   driver : this.state.id
               }
           })
-          console.log(this.state.formCreate)
           if (coords !== "" && departureTime  !== "" && numberPlaces !== "" && universityDirection !== "" && rideDirection !== "" && lat !== "" && long !== "") {
               setTimeout(() => this.handleCreate(e),200)
               cb()
@@ -420,7 +390,6 @@ class MyProvider extends Component {
         }
         Swal.fire(`Viaje terminado`, '', 'success')
         let {data: {usr}}  = await MY_SERVICE.endRide(allItems)
-        console.log(usr)
         usr = JSON.stringify(usr)
         localStorage.setItem("user", usr);
       }
@@ -428,28 +397,21 @@ class MyProvider extends Component {
       selectPlace = async (e, elementId, userId) => {
           e.preventDefault()
           const all = {
-            // maxDistance : this.state.maxDistance,
-            // userCoordinates : this.state.userCoordinates
             elementId : elementId,
             userId : userId
           }
-        //   MY_SERVICE.feed(all)
-        //     .then( res => console.log(res))
-        //     .catch(err => console.log(err))
+        Swal.fire(`Ahora formas parte de este viaje `, '', 'success')
         let {data: {user}}  = await MY_SERVICE.feed(all)
-        console.log(user)
         user = JSON.stringify(user)
         localStorage.setItem("user", user);
         
       }
 
       handleFile = async(e) => {
-        //   console.log(e.target.files[0])
         await this.setState({
             ...this.state,
             file: e.target.files[0]
             })
-        console.log(this.state.file)
       }
       
     render() {

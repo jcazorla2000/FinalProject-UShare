@@ -88,9 +88,6 @@ export default function MyRides(props) {
                                                 
                                             </>
                                             }
-                                        {/* <Button style={{"marginBottom" : "1vh", "backgroundColor": "black", "border": "2px solid black"}} onClick={(e) => context.endRide(e, element._id)} type="primary" htmlType="submit">
-                                            Abandonar viaje
-                                        </Button> */}
                                         </CustomCard>
                                     </div>
                                 ))}

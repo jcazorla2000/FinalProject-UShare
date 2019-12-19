@@ -19,7 +19,6 @@ export default function Profile(props) {
                         <h1><strong>Perfil</strong></h1>
                     </div>
                     <Avatar style={{ backgroundColor: 'whitesmoke', width: "100px", height: "100px" }} src={JSON.parse(localStorage.user).profile.photo} />
-                    {/* <img style={{"width": "40vw"}} src={JSON.parse(localStorage.user).profile.photo} alt="ProfileImage"/> */}
                     <h2><strong>{JSON.parse(localStorage.user).fullName}</strong></h2>
                     <h3><strong>Email</strong></h3>
                     <h4 style={{"marginTop": "-30px"}}>{JSON.parse(localStorage.user).email}</h4>

@@ -2,20 +2,17 @@ import React from 'react'
 import { Steps } from 'antd';
 import { MyContext } from '../../context'
 import {Link} from "react-router-dom"
-// import moment from 'moment';
+
 import {
     Form,
     Input,
     Tooltip,
     Icon,
-    // Upload,
     Select,
-    Button,
-    // TimePicker
+    Button
   } from 'antd';
 const { Step } = Steps;
 const { Option } = Select;
-// const format = 'HH:mm';
 
 const prefixSelector = (
     <Select placeholder="+55" style={{ width: 70 }}>
@@ -31,8 +28,6 @@ export default function Signup(props) {
                 {(!localStorage.user) ?
                     <div style= {
                         {
-                            // "background-image" : "url('https://miro.medium.com/max/3300/1*8ZGC79f70ZpDbwrhYha-xA.png')",
-                            // "backgroundImageSize" : "contain",
                             "backgroundColor" : "#79a7a3",
                             "width" : "100vw",
                             "height" : "100vh",
@@ -134,15 +129,9 @@ export default function Signup(props) {
                                     </Form>
                                 :
                                         (context.formSignup.role === "driver") ? 
-                                            <Form>
+                                            <Form style={{"width": "340px"}}>
                                             <div style={{"width":"100%", "display":"flex","justifyContent":"center"}}>
                                             <div style={{"display":"flex","flexDirection":"column", "width":"60%","alignItems":"center"}}>
-                                            {/* <Form.Item label="Hora habitual de salida">
-                                                <TimePicker defaultValue={moment('08:00', format)} format={format} onChange={context.handleChangeDeparture}/>
-                                            </Form.Item>
-                                            <Form.Item label="Hora habitual de regreso">
-                                                <TimePicker defaultValue={moment('15:00', format)} format={format} onChange={context.handleChangeReturn}/>
-                                            </Form.Item> */}
                                             <Form.Item label="Modelo de su coche">
                                                 <Input
                                                 name="carModel" 
@@ -157,20 +146,11 @@ export default function Signup(props) {
                                                 onChange={e => context.handleInput(e, 'formSignup')} 
                                                 value={context.formSignup.carColor}/>
                                             </Form.Item>
+                                            <Form.Item style={{"marginTop":"5vh"}}>
                                                 <p>Suba una foto</p>
                                                 <input onChange={context.handleFile} type="file" name="photo" />
-                                            {/* <Form.Item label="Suba una foto">
-                                                <Upload.Dragger onChange={context.handleFile} name="files" action="/upload.do">
-                                                <p className="ant-upload-drag-icon">
-                                                    <Icon type="inbox" />
-                                                </p>
-                                                <p className="ant-upload-text">Haga click o arrastre un archivo</p>
-                                                <p className="ant-upload-hint">Solo suba una</p>
-                                                </Upload.Dragger>
-                                                
-                                            </Form.Item> */}
-                                            
-                                                    <Button 
+                                            </Form.Item>
+                                                <Button 
                                                 style={{"backgroundColor": "black", "border": "2px solid black"}}
                                                 type="primary" 
                                                 htmlType="submit"
@@ -182,22 +162,10 @@ export default function Signup(props) {
                                                 </div>
                                             </Form>
                                         :
-                                            <Form>
-                                            {/* <Form.Item label="Hora habitual de salida">
-                                                <TimePicker defaultValue={moment('08:00', format)} format={format} onChange={context.handleChangeDeparture}/>
-                                            </Form.Item>
-                                            <Form.Item label="Hora habitual de regreso">
-                                                <TimePicker defaultValue={moment('15:00', format)} format={format} onChange={context.handleChangeReturn}/>
-                                            </Form.Item> */}
+                                            <Form style={{"width": "340px"}}>
 
-                                            <Form.Item label="Suba una foto">
-                                                {/* <Upload.Dragger onChange={context.handleFile} name="files" action="/upload.do">
-                                                <p className="ant-upload-drag-icon">
-                                                    <Icon type="inbox" />
-                                                </p>
-                                                <p className="ant-upload-text">Haga click o arrastre un archivo</p>
-                                                <p className="ant-upload-hint">Solo suba una</p>
-                                                </Upload.Dragger> */}
+                                            <Form.Item  style={{"marginTop":"5vh"}}>
+                                                <p>Suba una foto</p>
                                                 <input onChange={context.handleFile} type="file" name="photo" />
                                             </Form.Item>
 

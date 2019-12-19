@@ -25,8 +25,8 @@ const app = express();
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
-  // res.setHeader('Access-Control-Allow-Origin', 'https://modest-mcnulty-d19b85.netlify.com');
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
+  res.setHeader('Access-Control-Allow-Origin', 'https://modest-mcnulty-d19b85.netlify.com');
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
